@@ -23,3 +23,49 @@
   height: 50px;
   margin-top: 10px;
 }
+
+
+/* Estilos para el sidebar */
+.bg-dark {
+  background-color: #343a40 !important;
+}
+
+.nav-link {
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #495057;
+  text-decoration: none;
+}
+
+.nav-link.active {
+  background-color: #007bff;
+}
+
+.nav-link i {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.flex-grow-1 {
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.flex-grow-1 h2 {
+  font-size: 2rem;
+  color: #343a40;
+}
+
+.flex-grow-1 p {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
