@@ -1,12 +1,18 @@
-// App.js
-import React, { Fragment } from "react";
+
 import AppRoutes from './AppRoutes';
+import { AuthProvider } from './context/AuthContext';
+import { PermissionProvider } from 'react-permission-role';
+import './config/axiosConfig'
 
 function App() {
   return (
-    <Fragment>
+
+      <AuthProvider>
+        <PermissionProvider>
       <AppRoutes />
-    </Fragment>
+      </PermissionProvider>
+      </AuthProvider>
+
   );
 }
 

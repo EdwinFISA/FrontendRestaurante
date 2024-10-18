@@ -21,6 +21,7 @@ function Logout() {
 
             if (result.isConfirmed) {
                 logout(); 
+                localStorage.removeItem('token');
                 navigate('/login'); 
             } else {
                 navigate(-1); 

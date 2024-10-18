@@ -74,6 +74,12 @@ const Sidebar = () => {
                                         <span>Reporte Usuarios</span>
                                     </Link>
                                 </li>
+                                <li className="nav-item mb-2">
+                                    <Link to="/admin" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-person-lines-fill me-2"></i>
+                                        <span>Reporte Usuarios</span>
+                                    </Link>
+                                </li>
                             </ul>
                         )}
                     </li>
