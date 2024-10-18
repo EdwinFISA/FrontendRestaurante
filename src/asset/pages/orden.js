@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
+import { AllowedAccess } from 'react-permission-role';
 
 function Orden() {
     // Hooks de Orden
@@ -130,6 +131,12 @@ function Orden() {
     }, []);
 
     return (
+            <AllowedAccess 
+                roles={["mesero"]} 
+                permissions="manage-users" /*manage-order*/
+                renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+                isLoading={<p>Cargando...</p>}
+            >
         <div className="container">
             <div className="card text-center">
                 <div className="card-header">FORMULARIO CREAR ORDEN</div>
@@ -216,6 +223,7 @@ function Orden() {
                 </tbody>
             </table>
         </div>
+    </AllowedAccess>
     );
 }
 

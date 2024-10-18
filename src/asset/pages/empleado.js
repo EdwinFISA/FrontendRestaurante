@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
+import { AllowedAccess } from 'react-permission-role';
+
 
 function Empleado() {
   const [id, setId] = useState("");
@@ -163,6 +165,12 @@ function Empleado() {
 
 
   return (
+    <AllowedAccess 
+    roles={["admin"]} 
+    permissions="manage-users" 
+    renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+    isLoading={<p>Cargando...</p>}
+>
     <div className="container">
       <div className="card text-center">
         <div className="card-header">FORMULARIO DE EMPLEADOS</div>
@@ -360,7 +368,7 @@ function Empleado() {
         </ul>
       </nav>
     </div>
-    
+  </AllowedAccess>
   );
 }
 

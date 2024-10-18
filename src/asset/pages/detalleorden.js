@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
+import { AllowedAccess } from 'react-permission-role';
 
 function DetalleOrden() {
     const [ordenId, setOrdenId] = useState(""); // Para el ID de la orden
@@ -115,6 +116,12 @@ function DetalleOrden() {
     };
 
     return (
+        <AllowedAccess 
+        roles={["mesero"]} 
+        permissions="manage-users" /*manage-order*/
+        renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+        isLoading={<p>Cargando...</p>}
+    >
         <div className="container">
             <div className="card text-center">
                 <div className="card-header">FORMULARIO DETALLE DE ORDEN</div>
@@ -222,6 +229,7 @@ function DetalleOrden() {
                 </tbody>
             </table>
         </div>
+    </AllowedAccess>
     );
 }
 

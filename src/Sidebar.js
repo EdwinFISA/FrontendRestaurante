@@ -75,9 +75,9 @@ const Sidebar = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item mb-2">
-                                    <Link to="/admin" className="nav-link text-white d-flex align-items-center">
-                                        <i className="bi bi-person-lines-fill me-2"></i>
-                                        <span>Reporte Usuarios</span>
+                                    <Link to="/reporteempleado" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-person-video2 me-2"></i>
+                                        <span>Reporte Empleados</span>
                                     </Link>
                                 </li>
                             </ul>
@@ -128,6 +128,12 @@ const Sidebar = () => {
                                         <span>Detalle Orden</span>
                                     </Link>
                                 </li>
+                                <li className="nav-item mb-2">
+                                    <Link to="/reporteplato" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-card-heading me-2"></i>
+                                        <span>Reporte Platillo</span>
+                                    </Link>
+                                </li>
                                 {/*
                                 <li className="nav-item mb-2">
                                     <Link to="/reporteuser" className="nav-link text-white d-flex align-items-center">
@@ -146,7 +152,7 @@ const Sidebar = () => {
                         </Link>
                     </li>
                     <li className="nav-item mb-2">
-                        <Link to="/logout" className="nav-link text-white d-flex align-items-center">
+                        <Link to="/Logout" className="nav-link text-white d-flex align-items-center">
                             <i className="bi bi-box-arrow-left me-2"></i>
                             <span>Logout</span>
                         </Link>

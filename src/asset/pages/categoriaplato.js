@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
+import { AllowedAccess } from 'react-permission-role';
 
 function Categoriaplato() {
     const [id, setId] = useState("");
@@ -120,6 +121,12 @@ function Categoriaplato() {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
+        <AllowedAccess 
+        roles={["admin"]} 
+        permissions="manage-users" /*manage-menu*/
+        renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+        isLoading={<p>Cargando...</p>}
+    >
         <div className="container">
             <div className="card text-center">
                 <div className="card-header">FORMULARIO DE CATEGORÍAS</div>
@@ -222,6 +229,7 @@ function Categoriaplato() {
                 </ul>
             </nav>
         </div>
+    </AllowedAccess>
     );
 }
 
