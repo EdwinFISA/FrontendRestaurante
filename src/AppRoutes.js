@@ -17,6 +17,7 @@ import Detalleorden from "./asset/pages/detalleorden";
 import AdminPanel from './asset/pages/AdminPanel'; // Importa el AdminPanel
 import Reporteempleado from  "./asset/pages/reporteempleado";
 import ReportePlato from  "./asset/pages/reporteplato";
+import Frontmesero from "./asset/pages/frontmesero"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -56,6 +57,7 @@ const AppRoutes = () => {
         <Route path="detalleorden" element={<Detalleorden />} />
         <Route path="detalleorden" element={<Detalleorden />} />
         <Route path="reporteplato" element={<ReportePlato />} />
+        <Route path="frontmesero" element={<Frontmesero />} />
         <Route path="ajustes" element={<Ajustes />} />
         <Route path="Logout" element={<Logout />} />
       </Route>

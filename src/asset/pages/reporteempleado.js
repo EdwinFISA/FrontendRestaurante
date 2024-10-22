@@ -6,7 +6,6 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { AllowedAccess } from 'react-permission-role';
 
-
 function ReporteEmpleado() {
     const [empleados, setEmpleados] = useState([]);
     const reportRef = useRef(); // Referencia para capturar el contenido del reporte
@@ -19,9 +18,15 @@ function ReporteEmpleado() {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/obtenerlistapersonas")
-            .then((response) => setEmpleados(response.data))
-            .catch((error) => console.error("Error fetching employees:", error));
+        const fetchEmpleados = async () => {
+            try {
+                const response = await Axios.get("http://localhost:3001/obtenerlistapersonas");
+                setEmpleados(response.data);
+            } catch (error) {
+                console.error("Error fetching employees:", error);
+            }
+        };
+        fetchEmpleados();
     }, []);
 
     // Lógica de paginación
@@ -89,64 +94,64 @@ function ReporteEmpleado() {
 
     return (
         <AllowedAccess 
-        roles={["admin"]} 
-        permissions="manage-users" /*view-report*/
-        renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-        isLoading={<p>Cargando...</p>}
-    >
-        <div className="container">
-            <h1>Informe de Empleados</h1>
-            <br />
-            <div ref={reportRef}>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col" onClick={() => handleSort("id")}>Id</th>
-                            <th scope="col" onClick={() => handleSort("primer_nombre")}>Primer Nombre</th>
-                            <th scope="col" onClick={() => handleSort("segundo_nombre")}>Segundo Nombre</th>
-                            <th scope="col" onClick={() => handleSort("primer_apellido")}>Primer Apellido</th>
-                            <th scope="col" onClick={() => handleSort("segundo_apellido")}>Segundo Apellido</th>
-                            <th scope="col" onClick={() => handleSort("telefono")}>Teléfono</th>
-                            <th scope="col" onClick={() => handleSort("email")}>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentSortedItems.map((empleado) => (
-                            <tr key={empleado.id}>
-                                <th>{empleado.id}</th>
-                                <td>{empleado.primer_nombre}</td>
-                                <td>{empleado.segundo_nombre}</td>
-                                <td>{empleado.primer_apellido}</td>
-                                <td>{empleado.segundo_apellido}</td>
-                                <td>{empleado.telefono}</td>
-                                <td>{empleado.email}</td>
+            roles={["admin"]} 
+            permissions="manage-users" /*view-report*/
+            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            isLoading={<p>Cargando...</p>}
+        >
+            <div className="container">
+                <h1>Informe de Empleados</h1>
+                <br />
+                <div ref={reportRef}>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col" onClick={() => handleSort("id")}>Id</th>
+                                <th scope="col" onClick={() => handleSort("primer_nombre")}>Primer Nombre</th>
+                                <th scope="col" onClick={() => handleSort("segundo_nombre")}>Segundo Nombre</th>
+                                <th scope="col" onClick={() => handleSort("primer_apellido")}>Primer Apellido</th>
+                                <th scope="col" onClick={() => handleSort("segundo_apellido")}>Segundo Apellido</th>
+                                <th scope="col" onClick={() => handleSort("telefono")}>Teléfono</th>
+                                <th scope="col" onClick={() => handleSort("email")}>Email</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {currentSortedItems.map((empleado) => (
+                                <tr key={empleado.id}>
+                                    <th>{empleado.id}</th>
+                                    <td>{empleado.primer_nombre}</td>
+                                    <td>{empleado.segundo_nombre}</td>
+                                    <td>{empleado.primer_apellido}</td>
+                                    <td>{empleado.segundo_apellido}</td>
+                                    <td>{empleado.telefono}</td>
+                                    <td>{empleado.email}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="d-flex justify-content-end"> {/* Botón alineado a la derecha */}
+                    <button className="btn btn-primary" onClick={generarPDF}>
+                        Generar PDF
+                    </button>
+                </div>
+                <nav>
+                    <ul className="pagination">
+                        {pageNumbers.map((number) => (
+                            <li key={number} className="page-item">
+                                <a
+                                    href="#!"
+                                    className="page-link"
+                                    onClick={() => paginate(number)}
+                                >
+                                    {number}
+                                </a>
+                            </li>
                         ))}
-                    </tbody>
-                </table>
+                    </ul>
+                </nav>
             </div>
-            <div className="d-flex justify-content-end"> {/* Botón alineado a la derecha */}
-                <button className="btn btn-primary" onClick={generarPDF}>
-                    Generar PDF
-                </button>
-            </div>
-            <nav>
-                <ul className="pagination">
-                    {pageNumbers.map((number) => (
-                        <li key={number} className="page-item">
-                            <a
-                                href="#!"
-                                className="page-link"
-                                onClick={() => paginate(number)}
-                            >
-                                {number}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        </div>
-    </AllowedAccess>
+        </AllowedAccess>
     );
 }
 

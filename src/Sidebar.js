@@ -144,7 +144,12 @@ const Sidebar = () => {
                             </ul>
                         )}
                     </li>
-                    
+                    <li className="nav-item mb-2">
+                        <Link to="/frontmesero" className="nav-link text-white d-flex align-items-center">
+                            <i className="<'food-menu'"></i>
+                            <span>Mesero</span>
+                        </Link>
+                    </li>
                     <li className="nav-item mb-2">
                         <Link to="/ajustes" className="nav-link text-white d-flex align-items-center">
                             <i className="bi bi-gear-fill me-2"></i>

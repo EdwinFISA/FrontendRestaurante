@@ -1,0 +1,105 @@
+/* nuevo-empleado.css */
+
+/* Estilo general del contenedor */
+.nuevo-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Estilo para las categorías */
+.nueva-categoria-btn {
+    padding: 10px 15px;
+    margin: 5px;
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nueva-categoria-btn.active {
+    background-color: #ff6347;
+}
+
+/* Estilo para los platillos */
+.nuevo-platillo {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo para el resumen del pedido */
+.nuevo-resumen {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+
+/* Estilo para el total */
+.nuevo-total {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Estilo para el botón de finalizar */
+.nuevo-finalizar-btn {
+    padding: 10px 15px;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nuevo-finalizar-btn:hover {
+    background-color: #ff3d00;
+}
+
+/* Estilo para la ventana flotante */
+.nueva-ventana-flotante {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nueva-ventana-contenido {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón para agregar al pedido */
+.nuevo-agregar-btn {
+    padding: 10px 15px;
+    background-color: #ff7f50; /* Color naranja */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nuevo-agregar-btn:hover {
+    background-color: #ff6347; /* Color naranja más oscuro al hacer hover */
+}
