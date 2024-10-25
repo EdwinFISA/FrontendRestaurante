@@ -48,14 +48,23 @@ function Empleado() {
       segundo_apellido: segundoApellido,
       telefono: telefono,
       email: email,
-    }).then(() => {
+    })
+    .then(() => {
       getPersona();
       limpiarcampos();
       Swal.fire({
         title: "<strong>Actualización exitosa!!!</strong>",
-        html: "<i><strong>" + primerNombre + " " + primerApellido + "</strong> fue actualizado con éxito</i>",
+        html: `<i><strong>${primerNombre} ${primerApellido}</strong> fue actualizado con éxito</i>`,
         icon: "success",
         timer: 2500,
+      });
+    })
+    .catch((error) => {
+      console.error("Error actualizando los datos:", error);
+      Swal.fire({
+        title: "<strong>Error de actualización</strong>",
+        html: "<i>Ocurrió un error al actualizar los datos. Inténtalo de nuevo.</i>",
+        icon: "error",
       });
     });
   };
