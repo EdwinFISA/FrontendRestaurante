@@ -1,3 +1,4 @@
+
 // Login.js
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -35,6 +36,7 @@ function Login() {
                         permissions: res.data.user.permissions || [] // Asegúrate de que esto sea un array
                     });
                     console.log("Roles:", res.data.user.roles);
+                  
                     console.log("Permissions:", res.data.user.permissions);
 
                     console.log('Navigating to /home');
