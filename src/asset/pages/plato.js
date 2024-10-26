@@ -181,6 +181,7 @@ function Platillos() {
                             <th scope="col">Nombre</th>
                             <th scope="col">Categoría</th>
                             <th scope="col">Precio</th>
+                            <th scope="col">Imagen</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -193,6 +194,7 @@ function Platillos() {
                                     <td>{val.nombre}</td>
                                     <td>{categoria ? categoria.nombre : "No disponible"}</td>
                                     <td>{val.precio}</td>
+                                    <td> <img src={val.imagen} alt={val.nombre} style={{ width: '100px', height: 'auto' }} /></td>
                                     <td>
                                         <div className="btn-group" role="group">
                                             <button type="button" onClick={() => editarPlatilloHandler(val)} className="btn btn-info">
