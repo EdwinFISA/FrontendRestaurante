@@ -14,15 +14,18 @@ import Plato from "./asset/pages/plato";
 import Mesa from "./asset/pages/mesa";
 import Orden from "./asset/pages/orden";
 import Detalleorden from "./asset/pages/detalleorden";
-import AdminPanel from './asset/pages/AdminPanel'; // Importa el AdminPanel
-import Reporteempleado from  "./asset/pages/reporteempleado";
-import ReportePlato from  "./asset/pages/reporteplato";
+import AdminPanel from './asset/pages/AdminPanel';
+import Reporteempleado from "./asset/pages/reporteempleado";
+import ReportePlato from "./asset/pages/reporteplato";
+import Error404 from './asset/pages/Error404';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const PrivateLayout = () => {
   const { user } = useAuth();
+
+  // Redirige al login si no hay un usuario autenticado
   if (!user) return <Navigate to="/" replace />;
 
   return (
@@ -40,8 +43,10 @@ const AppRoutes = () => {
 
   return (
     <Routes>
+      {/* Ruta de login */}
       <Route path="/" element={user ? <Navigate to="/home" replace /> : <Login />} />
-      
+
+      {/* Rutas protegidas */}
       <Route element={<PrivateLayout />}>
         <Route path="home" element={<Home />} />
         <Route path="admin" element={<AdminPanel />} />
@@ -54,13 +59,13 @@ const AppRoutes = () => {
         <Route path="mesa" element={<Mesa />} />
         <Route path="orden" element={<Orden />} />
         <Route path="detalleorden" element={<Detalleorden />} />
-        <Route path="detalleorden" element={<Detalleorden />} />
         <Route path="reporteplato" element={<ReportePlato />} />
         <Route path="ajustes" element={<Ajustes />} />
         <Route path="Logout" element={<Logout />} />
       </Route>
 
-      <Route path="*" element={<Navigate to={user ? "/home" : "/"} replace />} />
+      {/* Ruta para errores 404 */}
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };

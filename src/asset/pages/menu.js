@@ -47,7 +47,6 @@ const Menu = () => {
                     <option value="3">Mesa 3</option>
                 </select>       
             </div>
-
             {selectedTable && (
                 <div className={styles.menuContainer}>
                     <div className={styles.card}>
@@ -70,7 +69,6 @@ const Menu = () => {
                             </button>
                         </div>
                     </div>
-
                     <div className={styles.card}>
                         <img src={imgcamarones} alt="Camarones" />
                         <h3>Camarones con Papas Fritas</h3>
@@ -91,7 +89,6 @@ const Menu = () => {
                             </button>
                         </div>
                     </div>
-
                     <div className={styles.card}>
                         <img src={imgceviches} alt="Ceviche" />
                         <h3>Ceviche</h3>

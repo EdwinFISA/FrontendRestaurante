@@ -1,4 +1,5 @@
 import "../style/empleado.css";
+
 import { useState, useEffect } from "react";
 //instalar axios npm install axios
 import Axios from "axios";
@@ -171,204 +172,149 @@ function Empleado() {
     renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
     isLoading={<p>Cargando...</p>}
 >
-    <div className="container">
-      <div className="card text-center">
-        <div className="card-header">FORMULARIO DE EMPLEADOS</div>
-        <div className="card-body">
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              Primer nombre:{" "}
-            </span>
-            <input
-              type="text"
-              onChange={(event) => {
-                setprimerNombre(event.target.value);
-              }}
-              className="form-control"
-              value={primerNombre}
-              placeholder="Ingrese su Primer Nombre"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              Segundo Nombre:{" "}
-            </span>
-            <input
-              type="text"
-              onChange={(event) => {
-                setsegundoNombre(event.target.value);
-              }}
-              value={segundoNombre}
-              className="form-control"
-              placeholder="Ingrese su Segundo Nombre"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              Primer Apellido:{" "}
-            </span>
-            <input
-              type="text"
-              onChange={(event) => {
-                setprimerApellido(event.target.value);
-              }}
-              value={primerApellido}
-              className="form-control"
-              placeholder="Ingrese su Primer Apellido"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              Segundo Apellido:{" "}
-            </span>
-            <input
-              type="text"
-              onChange={(event) => {
-                setsegundoApellido(event.target.value);
-              }}
-              value={segundoApellido}
-              className="form-control"
-              placeholder="Ingrese su Segundo Apellido"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              {" "}
-              Telefono:{" "}
-            </span>
-            <input
-              type="number"
-              onChange={(event) => {
-                settelefono(event.target.value);
-              }}
-              value={telefono}
-              className="form-control"
-              placeholder="Ingrese su telefono"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-            Direccion:{" "}
-            </span>
-            <input
-              type="text"
-              onChange={(event) => {
-                setemail(event.target.value);
-              }}
-              value={email}
-              className="form-control"
-              placeholder="Ingrese su Direccion"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-        <div className="card-footer text-muted">
-          {editar ? (
-            <div>
-              <button className="btn btn-warning m-2" onClick={update}>
-                Actualizar persona
-              </button>
-              <button className="btn btn-info m-2" onClick={add}>
-                Cancelar
-              </button>
+    <div className="container mt-4">
+        <div className="card text-center">
+            <div className="card-header bg-orange text-white">FORMULARIO DE EMPLEADOS</div>
+            <div className="card-body">
+                {/** Formulario de ingreso de empleados */}
+                {['primerNombre', 'segundoNombre', 'primerApellido', 'segundoApellido', 'telefono', 'email'].map((field, index) => (
+                    <div className="input-group mb-3" key={index}>
+                        <span className="input-group-text" id={`basic-addon${index + 1}`}>
+                            {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}:
+                        </span>
+                        <input
+                            type={field === 'telefono' ? 'number' : 'text'}
+                            onChange={(event) => {
+                                switch (field) {
+                                    case 'primerNombre':
+                                        setprimerNombre(event.target.value);
+                                        break;
+                                    case 'segundoNombre':
+                                        setsegundoNombre(event.target.value);
+                                        break;
+                                    case 'primerApellido':
+                                        setprimerApellido(event.target.value);
+                                        break;
+                                    case 'segundoApellido':
+                                        setsegundoApellido(event.target.value);
+                                        break;
+                                    case 'telefono':
+                                        settelefono(event.target.value);
+                                        break;
+                                    case 'email':
+                                        setemail(event.target.value);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }}
+                            value={field === 'primerNombre' ? primerNombre :
+                                   field === 'segundoNombre' ? segundoNombre :
+                                   field === 'primerApellido' ? primerApellido :
+                                   field === 'segundoApellido' ? segundoApellido :
+                                   field === 'telefono' ? telefono :
+                                   email}
+                            className="form-control"
+                            placeholder={`Ingrese su ${field.replace(/([A-Z])/g, ' $1')}`}
+                            aria-label={field}
+                            aria-describedby={`basic-addon${index + 1}`}
+                        />
+                    </div>
+                ))}
             </div>
-          ) : (
-            <button className="btn btn-success" onClick={add}>
-              Registrar persona
-            </button>
-          )}
+            <div className="card-footer text-muted">
+                {editar ? (
+                    <div>
+                        <button className="btn btn-warning m-2" onClick={update}>
+                            Actualizar persona
+                        </button>
+                        <button className="btn btn-info m-2" onClick={add}>
+                            Cancelar
+                        </button>
+                    </div>
+                ) : (
+                    <button className="btn btn-success" onClick={add}>
+                        Registrar persona
+                    </button>
+                )}
+            </div>
         </div>
-      </div>
-      <input
-                type="text"
-                placeholder="Buscar..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="form-control mb-3"
-            />
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Primer Nombre</th>
-            <th scope="col">Segundo Nombre</th>
-            <th scope="col">Primer Apellido</th>
-            <th scope="col">Segundo Apellido</th>
-            <th scope="col">Telefono</th>
-            <th scope="col">Email</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((val, key) => {
-            return (
-              <tr key={val.id}>
-                <th>{val.id}</th>
-                <td>{val.primer_nombre}</td>
-                <td>{val.segundo_nombre}</td>
-                <td>{val.primer_apellido}</td>
-                <td>{val.segundo_apellido}</td>
-                <td>{val.telefono}</td>
-                <td>{val.email}</td>
-                <td>
-                  <div
-                    className="btn-group"
-                    Namrole="group"
-                    aria-label="Basic example"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => {
-                        editarpersona(val);
-                      }}
-                      className="btn btn-info"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        deletepersona(val);
-                      }}
-                      className="btn btn-danger"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <nav>
-        <ul className="pagination">
-          {pageNumbers.map((number) => (
-            <li key={number} className="page-item">
-              <a
-                href="#!"
-                className="page-link"
-                onClick={() => paginate(number)}
-              >
-                {number}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+
+        <input
+            type="text"
+            placeholder="Buscar..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="form-control mb-3"
+        />
+
+        {/** Tabla de empleados */}
+        <table className="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Primer Nombre</th>
+                    <th scope="col">Segundo Nombre</th>
+                    <th scope="col">Primer Apellido</th>
+                    <th scope="col">Segundo Apellido</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {currentItems.map((val) => (
+                    <tr key={val.id}>
+                        <th>{val.id}</th>
+                        <td>{val.primer_nombre}</td>
+                        <td>{val.segundo_nombre}</td>
+                        <td>{val.primer_apellido}</td>
+                        <td>{val.segundo_apellido}</td>
+                        <td>{val.telefono}</td>
+                        <td>{val.email}</td>
+                        <td>
+                            <div className="btn-group" role="group">
+                                <button
+                                    type="button"
+                                    onClick={() => editarpersona(val)}
+                                    className="btn btn-info"
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => deletepersona(val)}
+                                    className="btn btn-danger"
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+        
+        {/** Paginación */}
+        <nav>
+            <ul className="pagination">
+                {pageNumbers.map((number) => (
+                    <li key={number} className="page-item">
+                        <a
+                            href="#!"
+                            className="page-link"
+                            onClick={() => paginate(number)}
+                        >
+                            {number}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
     </div>
-  </AllowedAccess>
+</AllowedAccess>
+
+
   );
 }
 

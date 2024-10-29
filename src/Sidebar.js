@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showRegistros, setShowRegistros] = useState(false);
-    const [showMenu, setShowMenu] = useState(false); // Estado para mostrar/ocultar submenú de Menu
+    const [showMenu, setShowMenu] = useState(false);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -12,26 +12,27 @@ const Sidebar = () => {
 
     const toggleRegistros = () => {
         setShowRegistros(!showRegistros);
-        setShowMenu(false); // Cierra el submenú de Menu si está abierto
+        setShowMenu(false);
     };
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
-        setShowRegistros(false); // Cierra el submenú de Registros si está abierto
+        setShowRegistros(false);
     };
 
     return (
         <>
             <button
-                className="btn btn-dark d-md-none m-3"
+                className="btn d-md-none m-3"
                 onClick={toggleSidebar}
+                style={{ backgroundColor: '#FF6700', color: 'white' }}
             >
                 <i className="bi bi-list"></i>
             </button>
 
             <div
-                className={`bg-dark text-white vh-100 p-3 d-flex flex-column ${isOpen ? 'd-block' : 'd-none'} d-md-block`}
-                style={{ minWidth: '225px' }}
+                className={`vh-100 p-3 d-flex flex-column ${isOpen ? 'd-block' : 'd-none'} d-md-block`}
+                style={{ minWidth: '225px', backgroundColor: '#FF6700', color: 'white' }}
             >
                 <h4 className="text-white">MiraLago</h4>
                 <ul className="nav flex-column">
@@ -42,18 +43,16 @@ const Sidebar = () => {
                         </Link>
                     </li>
 
-                    {/* Opción Registros */}
                     <li className="nav-item mb-2">
                         <button
                             className="btn btn-link nav-link text-white d-flex align-items-center"
                             onClick={toggleRegistros}
                         >
-                            <i className="bi bi bi-person-rolodex me-2"></i>
+                            <i className="bi bi-person-rolodex me-2"></i>
                             <span className="me-3">Usuarios</span>
-                            <i className={`bi ms-auto ${showRegistros ?  'bi-chevron-up' : 'bi-chevron-down'}`}></i>
+                            <i className={`bi ms-auto ${showRegistros ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
                         </button>
 
-                        {/* Submenú  */}
                         {showRegistros && (
                             <ul className="nav flex-column ms-3">
                                 <li className="nav-item mb-2">
@@ -84,7 +83,6 @@ const Sidebar = () => {
                         )}
                     </li>
 
-                    {/* Opciónes MENU */}
                     <li className="nav-item mb-2">
                         <button
                             className="btn btn-link nav-link text-white d-flex align-items-center"
@@ -95,7 +93,6 @@ const Sidebar = () => {
                             <i className={`bi ms-auto ${showMenu ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
                         </button>
 
-                        {/* Submenú  */}
                         {showMenu && (
                             <ul className="nav flex-column ms-3">
                                 <li className="nav-item mb-2">
@@ -134,17 +131,10 @@ const Sidebar = () => {
                                         <span>Reporte Platillo</span>
                                     </Link>
                                 </li>
-                                {/*
-                                <li className="nav-item mb-2">
-                                    <Link to="/reporteuser" className="nav-link text-white d-flex align-items-center">
-                                        <i className="bi bi-person-lines-fill me-2"></i>
-                                        <span>Reporte Usuarios</span>
-                                    </Link>
-                                </li>*/}
                             </ul>
                         )}
                     </li>
-                    
+
                     <li className="nav-item mb-2">
                         <Link to="/ajustes" className="nav-link text-white d-flex align-items-center">
                             <i className="bi bi-gear-fill me-2"></i>
