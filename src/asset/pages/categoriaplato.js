@@ -1,6 +1,5 @@
-import "../style/empleado.css";
+import "../style/empleado.css"; // Cambia esto a empleado.css
 import { useState, useEffect } from "react";
-// Instalar axios con: npm install axios
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
@@ -9,19 +8,15 @@ import { AllowedAccess } from 'react-permission-role';
 function Categoriaplato() {
     const [id, setId] = useState("");
     const [nombre, setNombre] = useState("");
-
     const [categoriasList, setCategoriasList] = useState([]);
-
     const [editar, setEditar] = useState(false);
-    // Paginación
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 3; // Número de información por página
+    const itemsPerPage = 3;
     const [searchTerm, setSearchTerm] = useState("");
 
-    const guardar = () => {
-        Axios.post("http://localhost:3001/categoria/guardar", {
-            nombre: nombre,
-        }).then(() => {
+    const guardar = async () => {
+        try {
+            await Axios.post("http://localhost:3001/categoria/guardar", { nombre });
             listarCategorias();
             limpiarCampos();
             Swal.fire({
@@ -30,14 +25,19 @@ function Categoriaplato() {
                 icon: "success",
                 timer: 3000,
             });
-        });
+        } catch (error) {
+            console.error('Error al guardar la categoría:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No se pudo registrar la categoría.",
+            });
+        }
     };
 
-    const actualizar = () => {
-        Axios.put("http://localhost:3001/categoria/actualizar", {
-            id: id,
-            nombre: nombre,
-        }).then(() => {
+    const actualizar = async () => {
+        try {
+            await Axios.put("http://localhost:3001/categoria/actualizar", { id, nombre });
             listarCategorias();
             limpiarCampos();
             Swal.fire({
@@ -46,11 +46,18 @@ function Categoriaplato() {
                 icon: "success",
                 timer: 2500,
             });
-        });
+        } catch (error) {
+            console.error('Error al actualizar la categoría:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "No se pudo actualizar la categoría.",
+            });
+        }
     };
 
-    const eliminarCategoria = (val) => {
-        Swal.fire({
+    const eliminarCategoria = async (val) => {
+        const result = await Swal.fire({
             title: "Confirmar Eliminado",
             html: `<i>¿Está seguro que desea eliminar <strong>${val.nombre}</strong> ?</i>`,
             icon: "warning",
@@ -59,28 +66,29 @@ function Categoriaplato() {
             cancelButtonColor: "#F44336",
             confirmButtonText: "Sí, eliminarlo!",
             cancelButtonText: "Cancelar",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Axios.delete(`http://localhost:3001/categoria/eliminar/${val.id}`).then(() => {
-                    listarCategorias();
-                    limpiarCampos();
-                    Swal.fire({
-                        title: "Eliminado!",
-                        html: `<strong>${val.nombre}</strong> fue eliminado`,
-                        icon: "success",
-                        timer: 2000,
-                    });
-                }).catch(function (error) {
-                    const errorMessage = error.response?.data?.message || `No se logró eliminar <strong>${val.nombre}</strong>`;
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        html: errorMessage,
-                        footer: error.message === "Network Error" ? "Intente más tarde" : error.message,
-                    });
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await Axios.delete(`http://localhost:3001/categoria/eliminar/${val.id}`);
+                listarCategorias();
+                limpiarCampos();
+                Swal.fire({
+                    title: "Eliminado!",
+                    html: `<strong>${val.nombre}</strong> fue eliminado`,
+                    icon: "success",
+                    timer: 2000,
+                });
+            } catch (error) {
+                const errorMessage = error.response?.data?.message || `No se logró eliminar <strong>${val.nombre}</strong>`;
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    html: errorMessage,
+                    footer: error.message === "Network Error" ? "Intente más tarde" : error.message,
                 });
             }
-        });
+        }
     };
 
     const limpiarCampos = () => {
@@ -95,23 +103,23 @@ function Categoriaplato() {
         setId(val.id);
     };
 
-    const listarCategorias = () => {
-        Axios.get("http://localhost:3001/categoria/listar").then((response) => {
+    const listarCategorias = async () => {
+        try {
+            const response = await Axios.get("http://localhost:3001/categoria/listar");
             setCategoriasList(response.data);
-        });
+        } catch (error) {
+            console.error('Error al listar categorías:', error);
+        }
     };
 
-    // Efecto para cargar datos al montar el componente
     useEffect(() => {
         listarCategorias();
     }, []);
 
-    // Filtrar la lista de categorías
-    const filteredCategoriasList = categoriasList.filter((categoria) => {
-        return categoria.nombre.toLowerCase().includes(searchTerm.toLowerCase());
-    });
+    const filteredCategoriasList = categoriasList.filter((categoria) =>
+        categoria.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-    // Paginación
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredCategoriasList.slice(indexOfFirstItem, indexOfLastItem);
@@ -121,68 +129,63 @@ function Categoriaplato() {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
-        <AllowedAccess 
-        roles={["admin"]} 
-        permissions="manage-users" /*manage-menu*/
-        renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-        isLoading={<p>Cargando...</p>}
-    >
-        <div className="container">
-            <div className="card text-center">
-                <div className="card-header">FORMULARIO DE CATEGORÍAS</div>
-                <div className="card-body">
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">
-                            Nombre:{" "}
-                        </span>
-                        <input
-                            type="text"
-                            onChange={(event) => {
-                                setNombre(event.target.value);
-                            }}
-                            className="form-control"
-                            value={nombre}
-                            placeholder="Ingrese el nombre de la categoría"
-                            aria-label="Nombre"
-                            aria-describedby="basic-addon1"
-                        />
+        <AllowedAccess
+            roles={["admin"]}
+            permissions="manage-users"
+            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            isLoading={<p>Cargando...</p>}
+        >
+            <div className="container-empleado">
+                <div className="card text-center">
+                    <div className="card-header">FORMULARIO DE CATEGORÍAS</div>
+                    <div className="card-body">
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">Nombre: </span>
+                            <input
+                                type="text"
+                                onChange={(event) => setNombre(event.target.value)}
+                                className="form-control"
+                                value={nombre}
+                                placeholder="Ingrese el nombre de la categoría"
+                                aria-label="Nombre"
+                                aria-describedby="basic-addon1"
+                            />
+                        </div>
+                    </div>
+                    <div className="card-footer text-muted">
+                        {editar ? (
+                            <div>
+                                <button className="btn btn-warning m-2" onClick={actualizar}>
+                                    Actualizar categoría
+                                </button>
+                                <button className="btn btn-info m-2" onClick={limpiarCampos}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        ) : (
+                            <button className="btn btn-success" onClick={guardar}>
+                                Registrar categoría
+                            </button>
+                        )}
                     </div>
                 </div>
-                <div className="card-footer text-muted">
-                    {editar ? (
-                        <div>
-                            <button className="btn btn-warning m-2" onClick={actualizar}>
-                                Actualizar categoría
-                            </button>
-                            <button className="btn btn-info m-2" onClick={limpiarCampos}>
-                                Cancelar
-                            </button>
-                        </div>
-                    ) : (
-                        <button className="btn btn-success" onClick={guardar}>
-                            Registrar categoría
-                        </button>
-                    )}
-                </div>
-            </div>
-            <input
-                type="text"
-                placeholder="Buscar..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="form-control mb-3"
-            />
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentItems.map((val) => {
-                        return (
+                <input
+                    type="text"
+                    placeholder="Buscar..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="form-control mb-3"
+                />
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {currentItems.map((val) => (
                             <tr key={val.id}>
                                 <th>{val.id}</th>
                                 <td>{val.nombre}</td>
@@ -190,18 +193,14 @@ function Categoriaplato() {
                                     <div className="btn-group" role="group" aria-label="Basic example">
                                         <button
                                             type="button"
-                                            onClick={() => {
-                                                editarCategoria(val);
-                                            }}
+                                            onClick={() => editarCategoria(val)}
                                             className="btn btn-info"
                                         >
                                             Editar
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={() => {
-                                                eliminarCategoria(val);
-                                            }}
+                                            onClick={() => eliminarCategoria(val)}
                                             className="btn btn-danger"
                                         >
                                             Eliminar
@@ -209,30 +208,21 @@ function Categoriaplato() {
                                     </div>
                                 </td>
                             </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            <nav>
-                <ul className="pagination">
-                    {pageNumbers.map((number) => (
-                        <li key={number} className="page-item">
-                            <a
-                                href="#!"
-                                className="page-link"
-                                onClick={() => paginate(number)}
-                            >
-                                {number}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        </div>
-    </AllowedAccess>
+                        ))}
+                    </tbody>
+                </table>
+                <nav>
+                    <ul className="pagination">
+                        {pageNumbers.map((number) => (
+                            <li key={number} className={`page-item ${currentPage === number ? "active" : ""}`}>
+                                <button className="page-link" onClick={() => paginate(number)}>{number}</button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
+        </AllowedAccess>
     );
 }
 
 export default Categoriaplato;
-
-

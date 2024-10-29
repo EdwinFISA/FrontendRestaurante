@@ -18,7 +18,6 @@ function Orden() {
     const [editarOrden, setEditarOrden] = useState(false);
     const [idOrden, setIdOrden] = useState("");
 
-
     // Cargar usuarios disponibles
     useEffect(() => {
         const obtenerUsuarios = async () => {
@@ -48,14 +47,15 @@ function Orden() {
     }, []);
 
     // Guardar nueva orden
-    const addOrden = () => {
-        Axios.post("http://localhost:3001/orden/guardar", {
-            id_usuario: idUsuario,
-            mesa_id: mesaId,
-            fecha_orden: fechaOrden,
-            total: total,
-        }).then(() => {
-            listaOrdenes();
+    const addOrden = async () => {
+        try {
+            await Axios.post("http://localhost:3001/orden/guardar", {
+                id_usuario: idUsuario,
+                mesa_id: mesaId,
+                fecha_orden: fechaOrden,
+                total: total,
+            });
+            await listaOrdenes();
             limpiarCampos();
             Swal.fire({
                 title: "<strong>Orden registrada!</strong>",
@@ -63,26 +63,27 @@ function Orden() {
                 icon: "success",
                 timer: 3000,
             });
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error al registrar la orden:", error);
             Swal.fire({
                 title: "Error",
                 text: "No se pudo registrar la orden.",
                 icon: "error",
             });
-        });
+        }
     };
 
     // Actualizar orden
-    const updateOrden = () => {
-        Axios.put("http://localhost:3001/orden/actualizar", {
-            id_orden: idOrden,
-            id_usuario: idUsuario,
-            mesa_id: mesaId,
-            fecha_orden: fechaOrden,
-            total: total,
-        }).then(() => {
-            listaOrdenes();
+    const updateOrden = async () => {
+        try {
+            await Axios.put("http://localhost:3001/orden/actualizar", {
+                id_orden: idOrden,
+                id_usuario: idUsuario,
+                mesa_id: mesaId,
+                fecha_orden: fechaOrden,
+                total: total,
+            });
+            await listaOrdenes();
             limpiarCampos();
             Swal.fire({
                 title: "<strong>Orden actualizada!</strong>",
@@ -90,14 +91,14 @@ function Orden() {
                 icon: "success",
                 timer: 2500,
             });
-        }).catch(error => {
+        } catch (error) {
             console.error("Error al actualizar la orden:", error);
             Swal.fire({
                 title: "Error",
                 text: "No se pudo actualizar la orden.",
                 icon: "error",
             });
-        });
+        }
     };
 
     // Limpiar campos del formulario
@@ -121,109 +122,111 @@ function Orden() {
     };
 
     // Listar todas las ordenes
-    const listaOrdenes = () => {
-        Axios.get("http://localhost:3001/orden/listar").then((response) => {
+    const listaOrdenes = async () => {
+        try {
+            const response = await Axios.get("http://localhost:3001/orden/listar");
             setOrdenes(response.data);
-        });
+        } catch (error) {
+            console.error("Error al listar ordenes:", error);
+        }
     };
+
     useEffect(() => {
         listaOrdenes();
     }, []);
 
     return (
-            <AllowedAccess 
-                roles={["mesero"]} 
-                permissions="manage-users" /*manage-order*/
-                renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-                isLoading={<p>Cargando...</p>}
-            >
-        <div className="container">
-            <div className="card text-center">
-                <div className="card-header">FORMULARIO CREAR ORDEN</div>
-                <div className="card-body">
-                    <div className="input-group mb-3">
-                        <span className="input-group-text">Usuario: </span>
-                        <select value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
-                            <option value="">Seleccione un usuario</option>
-                            {usuarios.map((usuario) => (
-                                <option key={usuario.id} value={usuario.id}>
-                                    {usuario.id_usuario}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text">Mesa: </span>
-                        <select value={mesaId} onChange={(e) => setMesaId(e.target.value)}>
-                            <option value="">Seleccione una mesa</option>
-                            {mesas.map((mesa) => (
-                                <option key={mesa.id} value={mesa.id}>
-                                    Mesa {mesa.numero}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text">Fecha Orden: </span>
-                        <input
-                            type="datetime-local"
-                            className="form-control"
-                            value={fechaOrden}
-                            onChange={(e) => setFechaOrden(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="card-footer text-muted">
-                    {editarOrden ? (
-                        <div>
-                            <button className="btn btn-warning m-2" onClick={updateOrden}>
-                                Actualizar Orden
-                            </button>
-                            <button className="btn btn-info m-2" onClick={limpiarCampos}>
-                                Cancelar
-                            </button>
+        <AllowedAccess 
+            roles={["mesero"]} 
+            permissions="manage-users" /*manage-order*/
+            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            isLoading={<p>Cargando...</p>}
+        >
+            <div className="container">
+                <div className="card text-center">
+                    <div className="card-header">FORMULARIO CREAR ORDEN</div>
+                    <div className="card-body">
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Usuario: </span>
+                            <select value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
+                                <option value="">Seleccione un usuario</option>
+                                {usuarios.map((usuario) => (
+                                    <option key={usuario.id} value={usuario.id}>
+                                        {usuario.id_usuario}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-                    ) : (
-                        <button className="btn btn-success" onClick={addOrden}>
-                            Registrar Orden
-                        </button>
-                    )}
-                </div>
-            </div>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Usuario</th>
-                        <th>Mesa</th>
-                        <th>Fecha de Orden</th>
-                        
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ordenes.map((orden) => (
-                        <tr key={orden.id_orden}>
-                            <th>{orden.id_orden}</th>
-                            <td>{orden.id_usuario}</td>
-                            <td>{orden.mesa_id}</td>
-                            <td>{orden.fecha_orden}</td>
-                            
-                            <td>
-                                <button
-                                    type="button"
-                                    onClick={() => editarOrdenes(orden)}
-                                    className="btn btn-info"
-                                >
-                                    Editar
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Mesa: </span>
+                            <select value={mesaId} onChange={(e) => setMesaId(e.target.value)}>
+                                <option value="">Seleccione una mesa</option>
+                                {mesas.map((mesa) => (
+                                    <option key={mesa.id} value={mesa.id}>
+                                        Mesa {mesa.numero}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text">Fecha Orden: </span>
+                            <input
+                                type="datetime-local"
+                                className="form-control"
+                                value={fechaOrden}
+                                onChange={(e) => setFechaOrden(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="card-footer text-muted">
+                        {editarOrden ? (
+                            <div>
+                                <button className="btn btn-warning m-2" onClick={updateOrden}>
+                                    Actualizar Orden
                                 </button>
-                            </td>
+                                <button className="btn btn-info m-2" onClick={limpiarCampos}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        ) : (
+                            <button className="btn btn-success" onClick={addOrden}>
+                                Registrar Orden
+                            </button>
+                        )}
+                    </div>
+                </div>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Usuario</th>
+                            <th>Mesa</th>
+                            <th>Fecha de Orden</th>
+                            <th>Acciones</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    </AllowedAccess>
+                    </thead>
+                    <tbody>
+                        {ordenes.map((orden) => (
+                            <tr key={orden.id_orden}>
+                                <th>{orden.id_orden}</th>
+                                <td>{orden.id_usuario}</td>
+                                <td>{orden.mesa_id}</td>
+                                <td>{orden.fecha_orden}</td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        onClick={() => editarOrdenes(orden)}
+                                        className="btn btn-info"
+                                    >
+                                        Editar
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </AllowedAccess>
     );
 }
 

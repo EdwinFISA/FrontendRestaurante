@@ -30,22 +30,26 @@ function Platillos() {
     }, []);
 
     // Obtener lista de platillos
-    const listarPlatillos = () => {
-        Axios.get("http://localhost:3001/platillos/listar").then((response) => {
+    const listarPlatillos = async () => {
+        try {
+            const response = await Axios.get("http://localhost:3001/platillos/listar");
             setListaPlatillosState(response.data); // Cambié el nombre para evitar conflictos
-        });
+        } catch (error) {
+            console.error('Error al listar platillos:', error);
+        }
     };
     useEffect(() => {
         listarPlatillos();
     }, []);
 
-    const guardarPlatillo = () => {
-        Axios.post("http://localhost:3001/platillos/guardar", {
-            nombre: nombre,
-            categoria_id: categoriaId,
-            precio: precio
-        }).then(() => {
-            listarPlatillos();
+    const guardarPlatillo = async () => {
+        try {
+            await Axios.post("http://localhost:3001/platillos/guardar", {
+                nombre: nombre,
+                categoria_id: categoriaId,
+                precio: precio
+            });
+            await listarPlatillos();
             limpiarCampos();
             Swal.fire({
                 title: "<strong>Registro exitoso!!!</strong>",
@@ -53,7 +57,7 @@ function Platillos() {
                 icon: "success",
                 timer: 3000,
             });
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error al registrar el platillo:", error.response ? error.response.data : error.message);
             Swal.fire({
                 title: "<strong>Error al registrar</strong>",
@@ -61,17 +65,18 @@ function Platillos() {
                 icon: "error",
                 timer: 3000,
             });
-        });
+        }
     };
 
-    const actualizarPlatillo = () => {
-        Axios.put("http://localhost:3001/platillos/actualizar", {
-            id: id,
-            nombre: nombre,
-            categoria_id: categoriaId,
-            precio: precio
-        }).then(() => {
-            listarPlatillos();
+    const actualizarPlatillo = async () => {
+        try {
+            await Axios.put("http://localhost:3001/platillos/actualizar", {
+                id: id,
+                nombre: nombre,
+                categoria_id: categoriaId,
+                precio: precio
+            });
+            await listarPlatillos();
             limpiarCampos();
             Swal.fire({
                 title: "<strong>Actualización exitosa!!!</strong>",
@@ -79,14 +84,14 @@ function Platillos() {
                 icon: "success",
                 timer: 2500,
             });
-        }).catch(error => {
+        } catch (error) {
             console.error("Error al actualizar el platillo:", error);
             Swal.fire({
                 title: "Error",
                 text: "No se pudo actualizar el platillo.",
                 icon: "error",
             });
-        });
+        }
     };
 
     const limpiarCampos = () => {
@@ -107,101 +112,103 @@ function Platillos() {
 
     return (
         <AllowedAccess 
-        roles={["admin"]} 
-        permissions="manage-users" /*manage-menu*/
-        renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-        isLoading={<p>Cargando...</p>}
-    >
-        <div className="container">
-            <div className="card text-center">
-                <div className="card-header">FORMULARIO CREAR PLATILLO</div>
-                <div className="card-body">
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">
-                            Nombre del Platillo:{" "}
-                        </span>
-                        <input
-                            type="text"
-                            onChange={(event) => setNombre(event.target.value)}
-                            className="form-control"
-                            value={nombre}
-                        />
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">
-                            Categoría:{" "}
-                        </span>
-                        <select value={categoriaId} onChange={(e) => setCategoriaId(e.target.value)}>
-                            <option value="">Seleccione una categoría</option>
-                            {categorias.map((categoria) => (
-                                <option key={categoria.id} value={categoria.id}>
-                                    {categoria.nombre}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">
-                            Precio:{" "}
-                        </span>
-                        <input
-                            type="number"
-                            onChange={(event) => setPrecio(event.target.value)}
-                            className="form-control"
-                            value={precio}
-                        />
-                    </div>
-                </div>
-                <div className="card-footer text-muted">
-                    {editarPlatillo ? (
-                        <div>
-                            <button className="btn btn-warning m-2" onClick={actualizarPlatillo}>
-                                Actualizar Platillo
-                            </button>
-                            <button className="btn btn-info m-2" onClick={limpiarCampos}>
-                                Cancelar
-                            </button>
+            roles={["admin"]} 
+            permissions="manage-users" /*manage-menu*/
+            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            isLoading={<p>Cargando...</p>}
+        >
+            <div className="container">
+                <div className="card text-center">
+                    <div className="card-header">FORMULARIO CREAR PLATILLO</div>
+                    <div className="card-body">
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                Nombre del Platillo:{" "}
+                            </span>
+                            <input
+                                type="text"
+                                onChange={(event) => setNombre(event.target.value)}
+                                className="form-control"
+                                value={nombre}
+                            />
                         </div>
-                    ) : (
-                        <button className="btn btn-success" onClick={guardarPlatillo}>
-                            Registrar Platillo
-                        </button>
-                    )}
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                Categoría:{" "}
+                            </span>
+                            <select value={categoriaId} onChange={(e) => setCategoriaId(e.target.value)} className="form-select">
+                                <option value="">Seleccione una categoría</option>
+                                {categorias.map((categoria) => (
+                                    <option key={categoria.id} value={categoria.id}>
+                                        {categoria.nombre}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                Precio:{" "}
+                            </span>
+                            <input
+                                type="number"
+                                onChange={(event) => setPrecio(event.target.value)}
+                                className="form-control"
+                                value={precio}
+                            />
+                        </div>
+                    </div>
+                    <div className="card-footer text-muted">
+                        {editarPlatillo ? (
+                            <div>
+                                <button className="btn btn-warning m-2" onClick={actualizarPlatillo}>
+                                    Actualizar Platillo
+                                </button>
+                                <button className="btn btn-info m-2" onClick={limpiarCampos}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        ) : (
+                            <button className="btn btn-success" onClick={guardarPlatillo}>
+                                Registrar Platillo
+                            </button>
+                        )}
+                    </div>
                 </div>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listaPlatillos.map((val) => {
+                            const categoria = categorias.find(c => c.id === val.categoria_id);
+                            return (
+                                <tr key={val.id}>
+                                    <th>{val.id}</th>
+                                    <td>{val.nombre}</td>
+                                    <td>{categoria ? categoria.nombre : "No disponible"}</td>
+                                    <td>{val.precio}</td>
+                                    <td> <img src={val.imagen} alt={val.nombre} style={{ width: '100px', height: 'auto' }} /></td>
+                                    <td>
+                                        <div className="btn-group" role="group">
+                                            <button type="button" onClick={() => editarPlatilloHandler(val)} className="btn btn-info">
+                                                Editar
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Categoría</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listaPlatillos.map((val, key) => {
-                        const categoria = categorias.find(c => c.id === val.categoria_id);
-                        return (
-                            <tr key={val.id}>
-                                <th>{val.id}</th>
-                                <td>{val.nombre}</td>
-                                <td>{categoria ? categoria.nombre : "No disponible"}</td>
-                                <td>{val.precio}</td>
-                                <td>
-                                    <div className="btn-group" role="group">
-                                        <button type="button" onClick={() => editarPlatilloHandler(val)} className="btn btn-info">
-                                            Editar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-        </div>
-    </AllowedAccess>
+        </AllowedAccess>
     );
 }
 

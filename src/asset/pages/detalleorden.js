@@ -6,15 +6,14 @@ import Swal from "sweetalert2";
 import { AllowedAccess } from 'react-permission-role';
 
 function DetalleOrden() {
-    const [ordenId, setOrdenId] = useState(""); // Para el ID de la orden
-    const [platilloId, setPlatilloId] = useState(""); // Para el ID del platillo
-    const [cantidad, setCantidad] = useState(""); // Para la cantidad
+    const [ordenId, setOrdenId] = useState("");
+    const [platilloId, setPlatilloId] = useState("");
+    const [cantidad, setCantidad] = useState("");
     const [detalleOrdenLista, setDetalleOrdenLista] = useState([]);
     const [editarDetalle, setEditarDetalle] = useState(false);
-    const [ordenes, setOrdenes] = useState([]); // Para las órdenes
-    const [platillos, setPlatillos] = useState([]); // Para los platillos
+    const [ordenes, setOrdenes] = useState([]);
+    const [platillos, setPlatillos] = useState([]);
 
-    // Obtener detalles de la orden al montar el componente
     useEffect(() => {
         obtenerDetallesOrden();
         obtenerOrdenes();
@@ -33,7 +32,7 @@ function DetalleOrden() {
 
     const obtenerOrdenes = async () => {
         try {
-            const response = await fetch('http://localhost:3001/orden/listar'); // Ajusta la URL según tu backend
+            const response = await fetch('http://localhost:3001/orden/listar');
             const data = await response.json();
             setOrdenes(data);
         } catch (error) {
@@ -43,7 +42,7 @@ function DetalleOrden() {
 
     const obtenerPlatillos = async () => {
         try {
-            const response = await fetch('http://localhost:3001/platillos/listar'); // Ajusta la URL según tu backend
+            const response = await fetch('http://localhost:3001/platillos/listar');
             const data = await response.json();
             setPlatillos(data);
         } catch (error) {
@@ -51,13 +50,14 @@ function DetalleOrden() {
         }
     };
 
-    const agregarDetalleOrden = () => {
-        Axios.post("http://localhost:3001/detalle_orden/guardar", {
-            orden_id: ordenId,
-            platillo_id: platilloId,
-            cantidad: cantidad,
-        }).then(() => {
-            obtenerDetallesOrden();
+    const agregarDetalleOrden = async () => {
+        try {
+            await Axios.post("http://localhost:3001/detalle_orden/guardar", {
+                orden_id: ordenId,
+                platillo_id: platilloId,
+                cantidad: cantidad,
+            });
+            await obtenerDetallesOrden();
             limpiarCampos();
             Swal.fire({
                 title: "<strong>Registro exitoso!!!</strong>",
@@ -65,25 +65,25 @@ function DetalleOrden() {
                 icon: "success",
                 timer: 3000,
             });
-        })
-        .catch((error) => {
-            console.error("Error al registrar el detalle de orden:", error.response ? error.response.data : error.message);
+        } catch (error) {
+            console.error("Error al registrar el detalle de orden:", error);
             Swal.fire({
                 title: "<strong>Error al registrar</strong>",
                 html: `<i>${(error.response?.data?.message || "Ocurrió un error inesperado.")}</i>`,
                 icon: "error",
                 timer: 3000,
             });
-        });
+        }
     };
 
-    const actualizarDetalleOrden = () => {
-        Axios.put("http://localhost:3001/detalle_orden/actualizar", {
-            orden_id: ordenId,
-            platillo_id: platilloId,
-            cantidad: cantidad,
-        }).then(() => {
-            obtenerDetallesOrden();
+    const actualizarDetalleOrden = async () => {
+        try {
+            await Axios.put("http://localhost:3001/detalle_orden/actualizar", {
+                orden_id: ordenId,
+                platillo_id: platilloId,
+                cantidad: cantidad,
+            });
+            await obtenerDetallesOrden();
             limpiarCampos();
             Swal.fire({
                 title: "<strong>Actualización exitosa!!!</strong>",
@@ -91,14 +91,33 @@ function DetalleOrden() {
                 icon: "success",
                 timer: 2500,
             });
-        }).catch(error => {
+        } catch (error) {
             console.error("Error al actualizar el detalle de orden:", error);
             Swal.fire({
                 title: "Error",
                 text: "No se pudo actualizar el detalle de orden.",
                 icon: "error",
             });
-        });
+        }
+    };
+
+    const eliminarDetalleOrden = async (id) => {
+        try {
+            await Axios.delete(`http://localhost:3001/detalle_orden/eliminar/${id}`);
+            await obtenerDetallesOrden();
+            Swal.fire({
+                title: "Eliminación exitosa",
+                text: "El detalle de orden fue eliminado.",
+                icon: "success",
+            });
+        } catch (error) {
+            console.error("Error al eliminar el detalle de orden:", error);
+            Swal.fire({
+                title: "Error",
+                text: "No se pudo eliminar el detalle de orden.",
+                icon: "error",
+            });
+        }
     };
 
     const limpiarCampos = () => {
@@ -117,120 +136,100 @@ function DetalleOrden() {
 
     return (
         <AllowedAccess 
-        roles={["mesero"]} 
-        permissions="manage-users" /*manage-order*/
-        renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-        isLoading={<p>Cargando...</p>}
-    >
-        <div className="container">
-            <div className="card text-center">
-                <div className="card-header">FORMULARIO DETALLE DE ORDEN</div>
-                <div className="card-body">
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">
-                            ID Orden:{" "}
-                        </span>
-                        <select
-                            className="form-control"
-                            value={ordenId}
-                            onChange={(event) => setOrdenId(event.target.value)}
-                        >
-                            <option value="">Seleccione una orden</option>
-                            {ordenes.map((orden) => (
-                                <option key={orden.id} value={orden.id}>{orden.id}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">
-                            ID Platillo:{" "}
-                        </span>
-                        <select
-                            className="form-control"
-                            value={platilloId}
-                            onChange={(event) => setPlatilloId(event.target.value)}
-                        >
-                            <option value="">Seleccione un platillo</option>
-                            {platillos.map((platillo) => (
-                                <option key={platillo.id} value={platillo.id}>{platillo.nombre}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">
-                            Cantidad:{" "}
-                        </span>
-                        <input
-                            type="number"
-                            onChange={(event) => {
-                                setCantidad(event.target.value);
-                            }}
-                            className="form-control"
-                            value={cantidad}
-                        />
-                    </div>
-                </div>
-                <div className="card-footer text-muted">
-                    {editarDetalle ? (
-                        <div>
-                            <button className="btn btn-warning m-2" onClick={actualizarDetalleOrden}>
-                                Actualizar Detalle
-                            </button>
-                            <button className="btn btn-info m-2" onClick={limpiarCampos}>
-                                Cancelar
-                            </button>
+            roles={["mesero"]} 
+            permissions="manage-users"
+            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            isLoading={<p>Cargando...</p>}
+        >
+            <div className="container">
+                <div className="card text-center">
+                    <div className="card-header">FORMULARIO DETALLE DE ORDEN</div>
+                    <div className="card-body">
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                ID Orden:{" "}
+                            </span>
+                            <select
+                                className="form-control"
+                                value={ordenId}
+                                onChange={(event) => setOrdenId(event.target.value)}
+                            >
+                                <option value="">Seleccione una orden</option>
+                                {ordenes.map((orden) => (
+                                    <option key={orden.id} value={orden.id}>{orden.id}</option>
+                                ))}
+                            </select>
                         </div>
-                    ) : (
-                        <button className="btn btn-success" onClick={agregarDetalleOrden}>
-                            Registrar Detalle
-                        </button>
-                    )}
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                ID Platillo:{" "}
+                            </span>
+                            <select
+                                className="form-control"
+                                value={platilloId}
+                                onChange={(event) => setPlatilloId(event.target.value)}
+                            >
+                                <option value="">Seleccione un platillo</option>
+                                {platillos.map((platillo) => (
+                                    <option key={platillo.id} value={platillo.id}>{platillo.nombre}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                Cantidad:{" "}
+                            </span>
+                            <input
+                                type="number"
+                                onChange={(event) => setCantidad(event.target.value)}
+                                className="form-control"
+                                value={cantidad}
+                            />
+                        </div>
+                    </div>
+                    <div className="card-footer text-muted">
+                        {editarDetalle ? (
+                            <div>
+                                <button className="btn btn-warning m-2" onClick={actualizarDetalleOrden}>
+                                    Actualizar Detalle
+                                </button>
+                                <button className="btn btn-danger m-2" onClick={limpiarCampos}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        ) : (
+                            <button className="btn btn-primary m-2" onClick={agregarDetalleOrden}>
+                                Agregar Detalle
+                            </button>
+                        )}
+                    </div>
                 </div>
-            </div>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ID Orden</th>
-                        <th scope="col">ID Platillo</th>
-                        <th scope="col">Cantidad</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {detalleOrdenLista.map((val, key) => (
-                        <tr key={val.orden_id}>
-                            <th>{val.orden_id}</th>
-                            <td>{val.orden_id}</td>
-                            <td>{val.platillo_id}</td>
-                            <td>{val.cantidad}</td>
-                            <td>
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        editarDetalleOrden(val);
-                                    }}
-                                    className="btn btn-info"
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        // Aquí deberías agregar la lógica para eliminar el detalle de la orden
-                                    }}
-                                    className="btn btn-danger"
-                                >
-                                    Eliminar
-                                </button>
-                            </td>
+
+                <table className="table table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th>ID Orden</th>
+                            <th>ID Platillo</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    </AllowedAccess>
+                    </thead>
+                    <tbody>
+                        {detalleOrdenLista.map((detalle, index) => (
+                            <tr key={index}>
+                                <td>{detalle.orden_id}</td>
+                                <td>{detalle.platillo_id}</td>
+                                <td>{detalle.cantidad}</td>
+                                <td>
+                                    <button className="btn btn-info" onClick={() => editarDetalleOrden(detalle)}>Editar</button>
+                                    <button className="btn btn-danger" onClick={() => eliminarDetalleOrden(detalle.id)}>Eliminar</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </AllowedAccess>
     );
 }
-
 export default DetalleOrden;
