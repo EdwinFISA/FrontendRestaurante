@@ -1,0 +1,109 @@
+/* Estilos generales */
+.bg-orange {
+  background-color: #ff6600; /* Naranja fuerte */
+}
+
+.bg-light-orange {
+  background-color: #ffe6cc; /* Naranja claro */
+}
+
+.table-orange {
+  background-color: #ff9933; /* Naranja medio */
+  color: white; /* Texto blanco en la tabla */
+}
+
+.btn-orange {
+  background-color: #ff9933; /* Naranja fuerte para botones */
+  color: white; /* Texto blanco en botones */
+}
+
+.btn-orange:hover {
+  background-color: #ff8533; /* Naranja más claro en hover */
+}
+
+.bi-pencil,
+.bi-person-plus-fill {
+  font-size: 1.2em; /* Tamaño de iconos */
+}
+
+/* Estilos de la tabla */
+.table {
+  width: 100%; /* Ancho completo */
+  margin-top: 20px; /* Espaciado superior */
+  border-collapse: collapse; /* Colapsar bordes */
+}
+
+.table th,
+.table td {
+  text-align: left; /* Alinear texto a la izquierda */
+  padding: 15px; /* Espaciado interno */
+  border-bottom: 1px solid #ff9933; /* Línea divisoria inferior en naranja fuerte */
+}
+
+.table th {
+  background-color: #ff9933; /* Color de fondo para encabezados en naranja medio */
+  color: white; /* Texto blanco en encabezados */
+  font-weight: bold; /* Texto en negrita */
+}
+
+.table td {
+  background-color: white; /* Color de fondo blanco para celdas */
+  color: #333; /* Texto oscuro para contraste */
+}
+
+.table tr:hover {
+  background-color: #ffe6cc; /* Color de fondo claro en hover */
+}
+
+/* Estilos responsivos */
+.table-responsive {
+  overflow-x: auto; /* Permitir desplazamiento horizontal */
+}
+
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    padding: 10px; /* Menor espaciado interno en móviles */
+  }
+
+  .table th {
+    font-size: 14px; /* Tamaño de fuente más pequeño en móviles */
+  }
+
+  .table td {
+    font-size: 14px; /* Tamaño de fuente más pequeño en móviles */
+  }
+}
+
+@media (max-width: 576px) {
+  .table th,
+  .table td {
+    padding: 8px; /* Menor espaciado en pantallas más pequeñas */
+  }
+}
+
+.bg-orange {
+  background-color: #ff6600;
+}
+
+.bg-light-orange {
+  background-color: #ffe6cc;
+}
+
+.table-orange {
+  background-color: #ff9933;
+  color: white;
+}
+
+.btn-orange {
+  background-color: #ff6600;
+  color: white;
+}
+
+.btn-orange:hover {
+  background-color: #ff8533;
+}
+
+.bi {
+  font-size: 1.2em;
+}

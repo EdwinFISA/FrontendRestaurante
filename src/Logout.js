@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext'; 
 import Swal from 'sweetalert2'; 
+import './asset/style/Logout.css'; 
 
 function Logout() {
     const { logout } = useAuth(); 
@@ -13,8 +14,8 @@ function Logout() {
                 title: '¿Estás seguro de que quieres salir?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#ff9800', 
+                cancelButtonColor: '#ff5722', 
                 confirmButtonText: 'Sí, salir',
                 cancelButtonText: 'Cancelar'
             });
@@ -22,7 +23,7 @@ function Logout() {
             if (result.isConfirmed) {
                 logout(); 
                 localStorage.removeItem('token');
-                navigate('/login'); 
+                navigate('/'); 
             } else {
                 navigate(-1); 
             }
@@ -31,7 +32,13 @@ function Logout() {
         confirmLogout(); 
     }, [logout, navigate]);
 
-    return null; 
+    return (
+        <div className="logout-container">
+            <div className="logout-message">
+                Cierra sesión para continuar.
+            </div>
+        </div>
+    ); 
 }
 
 export default Logout;
