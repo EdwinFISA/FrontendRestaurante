@@ -1,9 +1,10 @@
-import "../style/empleado.css"; // Cambia esto a empleado.css
+import "../style/cateplato.css"; 
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import { AllowedAccess } from 'react-permission-role';
+import NoPermission from "./NoPermission";
 
 function Categoriaplato() {
     const [id, setId] = useState("");
@@ -132,9 +133,10 @@ function Categoriaplato() {
         <AllowedAccess
             roles={["admin"]}
             permissions="manage-users"
-            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            renderAuthFailed={<NoPermission/>}
             isLoading={<p>Cargando...</p>}
         >
+        <div className="container">
             <div className="container-empleado">
                 <div className="card text-center">
                     <div className="card-header">FORMULARIO DE CATEGORÍAS</div>
@@ -142,14 +144,15 @@ function Categoriaplato() {
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="basic-addon1">Nombre: </span>
                             <input
-                                type="text"
-                                onChange={(event) => setNombre(event.target.value)}
-                                className="form-control"
-                                value={nombre}
-                                placeholder="Ingrese el nombre de la categoría"
-                                aria-label="Nombre"
-                                aria-describedby="basic-addon1"
+                            type="text"
+                            onChange={(event) => setNombre(event.target.value)}
+                            className="form-control" /* Se aplican las nuevas propiedades de estilo */
+                            value={nombre}
+                            placeholder="Ingrese el nombre de la categoría"
+                            aria-label="Nombre"
+                            aria-describedby="basic-addon1"
                             />
+
                         </div>
                     </div>
                     <div className="card-footer text-muted">
@@ -220,6 +223,7 @@ function Categoriaplato() {
                         ))}
                     </ul>
                 </nav>
+            </div>
             </div>
         </AllowedAccess>
     );

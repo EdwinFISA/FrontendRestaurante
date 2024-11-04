@@ -4,6 +4,7 @@ import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import { AllowedAccess } from 'react-permission-role';
+import NoPermission from "./NoPermission";
 
 function DetalleOrden() {
     const [ordenId, setOrdenId] = useState("");
@@ -138,7 +139,7 @@ function DetalleOrden() {
         <AllowedAccess 
             roles={["mesero"]} 
             permissions="manage-users"
-            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            renderAuthFailed={<NoPermission/>}
             isLoading={<p>Cargando...</p>}
         >
             <div className="container">

@@ -14,17 +14,15 @@ import Plato from "./asset/pages/plato";
 import Mesa from "./asset/pages/mesa";
 import Orden from "./asset/pages/orden";
 import Detalleorden from "./asset/pages/detalleorden";
-<<<<<<< HEAD
 import AdminPanel from './asset/pages/AdminPanel';
 import Reporteempleado from "./asset/pages/reporteempleado";
 import ReportePlato from "./asset/pages/reporteplato";
 import Error404 from './asset/pages/Error404';
-=======
-import AdminPanel from './asset/pages/AdminPanel'; // Importa el AdminPanel
-import Reporteempleado from  "./asset/pages/reporteempleado";
-import ReportePlato from  "./asset/pages/reporteplato";
 import Frontmesero from "./asset/pages/frontmesero"
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
+import Cocina from "./asset/pages/Cocina";
+import Historial from "./asset/pages/Historial";
+
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -68,6 +66,8 @@ const AppRoutes = () => {
         <Route path="detalleorden" element={<Detalleorden />} />
         <Route path="reporteplato" element={<ReportePlato />} />
         <Route path="frontmesero" element={<Frontmesero />} />
+        <Route path="Cocina" element={<Cocina />} />
+        <Route path="Historial" element={<Historial />} />
         <Route path="ajustes" element={<Ajustes />} />
         <Route path="Logout" element={<Logout />} />
       </Route>

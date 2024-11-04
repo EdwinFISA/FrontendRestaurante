@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { AllowedAccess } from 'react-permission-role';
+import NoPermission from "./NoPermission";
 
 function ReportePlatos() {
     const [platos, setPlatos] = useState([]);
@@ -99,7 +100,7 @@ function ReportePlatos() {
         <AllowedAccess 
             roles={["admin"]} 
             permissions="manage-users" /*view-report*/
-            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            renderAuthFailed={<NoPermission/>}
             isLoading={<p>Cargando...</p>}
         >
             <div className="container">

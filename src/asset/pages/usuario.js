@@ -1,14 +1,13 @@
 import "../style/usuarios.css";
 import React, { useState, useEffect } from 'react';
-// Instalar axios con: npm install axios
 import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import { AllowedAccess } from 'react-permission-role';
+import NoPermission from "../pages/NoPermission.js";
 
 function Usuario() {
-  // Hooks de Usuario
-  const [id, setId] = useState(""); // Este id es id_usuarios
+  const [id, setId] = useState("");
   const [personas, setPersonas] = useState([]);
   const [personasSinUsuario, setPersonasSinUsuario] = useState([]);
   const [idPersona, setIdPersona] = useState("");
@@ -21,27 +20,24 @@ function Usuario() {
   const [roles, setRoles] = useState([]);
   const [estados, setEstados] = useState([]);
 
-  // Mostrar todos los empleados en la tabla
   useEffect(() => {
     const obtenerListaPersonas = async () => {
       try {
         const response = await fetch('http://localhost:3001/obtenerlistapersonas');
         const data = await response.json();
-        setPersonas(data); // Guarda los datos en tu estado
+        setPersonas(data);
       } catch (error) {
         console.error('Error al obtener las personas:', error);
       }
     };
-
     obtenerListaPersonas();
   }, []);
 
-  // Mostrar todos los empleados sin un usuario asignado en el select al crear un nuevo usuario
   const obtenerPersonasSinUsuario = async () => {
     try {
       const response = await fetch('http://localhost:3001/obtenerpersona');
       const data = await response.json();
-      setPersonasSinUsuario(data); // Guarda los datos en tu estado
+      setPersonasSinUsuario(data);
     } catch (error) {
       console.error('Error al obtener las personas:', error);
     }
@@ -51,37 +47,32 @@ function Usuario() {
     obtenerPersonasSinUsuario();
   }, []);
 
-  // Obtener estados
   useEffect(() => {
     const obtenerestado = async () => {
       try {
         const response = await fetch('http://localhost:3001/obtenerestado');
         const data = await response.json();
-        setEstados(data); // Guarda los datos en tu estado
+        setEstados(data);
       } catch (error) {
         console.error('Error al obtener las Estados:', error);
       }
     };
-
     obtenerestado();
   }, []);
 
-  // Obtener roles
   useEffect(() => {
     const obtenerrol = async () => {
       try {
         const response = await fetch('http://localhost:3001/obtenerrol');
         const data = await response.json();
-        setRoles(data); // Guarda los datos en tu estado
+        setRoles(data);
       } catch (error) {
         console.error('Error al obtener roles:', error);
       }
     };
-
     obtenerrol();
   }, []);
 
-  // Agregar usuario
   const addUser = () => {
     Axios.post("http://localhost:3001/create-usuario", {
       id_persona: idPersona,
@@ -95,34 +86,22 @@ function Usuario() {
       limpiarcampos();
       Swal.fire({
         title: "<strong>Registro exitoso!!!</strong>",
-        html: "<i><strong>" + username + "</strong> fue registrado con éxito</i>",
+        html: `<i><strong>${username}</strong> fue registrado con éxito</i>`,
         icon: "success",
         timer: 3000,
       });
-    })
-    .catch((error) => {
-      console.error("Error al registrar el usuario:", error.response ? error.response.data : error.message);
+    }).catch((error) => {
+      console.error("Error al registrar el usuario:", error);
       Swal.fire({
         title: "<strong>Error al registrar</strong>",
-        html: "<i>" + (error.response?.data?.message || "Ocurrió un error inesperado.") + "</i>",
+        html: `<i>${error.response?.data?.message || "Ocurrió un error inesperado."}</i>`,
         icon: "error",
         timer: 3000,
       });
     });
   };
 
-  // Actualizar usuario
   const updateUser = () => {
-    console.log("Updating user with ID:", id);
-    console.log("User data:", {
-      id_usuario: id,
-      id_persona: idPersona,
-      rol_id: idRol,
-      estado_id: idEstado,
-      username: username,
-      password: password,
-    });
-    
     Axios.put("http://localhost:3001/updateuser", {
       id_usuario: id,
       id_persona: idPersona,
@@ -133,16 +112,14 @@ function Usuario() {
     }).then(() => {
       listaUsuarios();
       limpiarcampos();
-      
       Swal.fire({
         title: "<strong>Actualización exitosa!!!</strong>",
-        html: "<i><strong>" + username + "</strong> fue actualizado con éxito</i>",
+        html: `<i><strong>${username}</strong> fue actualizado con éxito</i>`,
         icon: "success",
         timer: 2500,
       });
     }).catch(error => {
       console.error("Error updating user:", error);
-      
       Swal.fire({
         title: "Error",
         text: "No se pudo actualizar el usuario.",
@@ -151,7 +128,6 @@ function Usuario() {
     });
   };
 
-  // Limpiar campos
   const limpiarcampos = () => {
     setIdPersona("");
     setIdRol("");
@@ -162,7 +138,6 @@ function Usuario() {
     seteditarUser(false);
   };
 
-  // Editar usuario
   const editarUsuario = (val) => {
     seteditarUser(true);
     setIdPersona(val.id_persona);
@@ -171,208 +146,87 @@ function Usuario() {
     setUsername(val.username);
     setPassword(val.password);
     setId(val.id_usuario)
-  }
+  };
 
-  // Obtener lista de usuarios
   const listaUsuarios = () => {
     Axios.get("http://localhost:3001/obteneruser").then((response) => {
       setusuariolista(response.data);
     });
   };
-  
+
   listaUsuarios();
 
   return (
     <AllowedAccess 
-<<<<<<< HEAD
-  roles={["admin"]} 
-  permissions="manage-users" 
-  renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-  isLoading={<p>Cargando...</p>}
->
-  <div className="container mt-4">
-    <div className="card text-center mb-4 shadow-sm">
-      <div className="card-header bg-orange text-white">CREACION DE USUARIO</div>
-      <div className="card-body bg-light-orange">
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1"><i className="bi bi-person"></i></span>
-          <select value={idPersona} onChange={(e) => setIdPersona(e.target.value)} className="form-select">
-            <option value="">Seleccione un empleado</option>
-            {personasSinUsuario.map((persona) => (
-              <option key={persona.id} value={persona.id}>
-                {persona.primer_nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1"><i className="bi bi-people"></i></span>
-          <select value={idRol} onChange={(e) => setIdRol(e.target.value)} className="form-select">
-            <option value="">Seleccione un rol</option>
-            {roles.map((rol) => (
-              <option key={rol.id_rol} value={rol.id_rol}>
-                {rol.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1"><i className="bi bi-toggle-on"></i></span>
-          <select value={idEstado} onChange={(e) => setIdEstado(e.target.value)} className="form-select">
-            <option value="">Seleccione un estado</option>
-            {estados.map((estado_usuario) => (
-              <option key={estado_usuario.id_estado} value={estado_usuario.id_estado}>
-                {estado_usuario.descripcion}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1"><i className="bi bi-person-circle"></i></span>
-          <input type="text" onChange={(event) => setUsername(event.target.value)} className="form-control" value={username} />
-        </div>
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1"><i className="bi bi-lock"></i></span>
-          <input type="password" onChange={(event) => setPassword(event.target.value)} className="form-control" value={password} />
-        </div>
-      </div>
-      <div className="card-footer text-muted">
-        {editarUser ? (
-          <div>
-            <button className="btn btn-orange m-2" onClick={updateUser}><i className="bi bi-pencil"></i> Actualizar Usuario</button>
-            <button className="btn btn-info m-2" onClick={addUser}><i className="bi bi-x-circle"></i> Cancelar</button>
-          </div>
-        ) : (
-          <button className="btn btn-orange" onClick={addUser}><i className="bi bi-person-plus-fill"></i> Registrar Usuario</button>
-        )}
-      </div>
-    </div>
-
-    {/* Tabla de Lista de Usuarios */}
-    <div className="table-responsive">
-      <table className="table table-striped">
-        <thead>
-          <tr className="table-orange">
-            <th scope="col">#</th>
-            <th scope="col">Empleado</th>
-            <th scope="col">Rol</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Usuario</th>
-            <th scope="col">Contraseña</th>
-            <th scope="col">Fecha de creación</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usuariolista.map((val) => {
-            const empleado = personas.find(p => p.id === val.id_persona);
-            const rol = roles.find(r => r.id_rol === val.rol_id);
-            const estado = estados.find(e => e.id_estado === val.estado_id);
-
-            return (
-              <tr key={val.id_usuario}>
-                <th>{val.id_usuario}</th>
-                <td>{empleado ? empleado.primer_nombre : "No disponible"}</td>
-                <td>{rol ? rol.nombre : "No disponible"}</td>
-                <td>{estado ? estado.descripcion : "No disponible"}</td>
-                <td>{val.username}</td>
-                <td>{val.password}</td>
-                <td>{val.fecha_creacion}</td>
-                <td>
-                  <div className="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" onClick={() => editarUsuario(val)} className="btn btn-orange">
-                      <i className="bi bi-pencil"></i> Editar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</AllowedAccess>
-
-  
-
-=======
       roles={["admin"]} 
       permissions="manage-users" 
-      renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+      renderAuthFailed={<NoPermission />}
       isLoading={<p>Cargando...</p>}
     >
-      <div className="container">
-        <div className="card text-center">
-          <div className="card-header">FORMULARIO CREAR USUARIO</div>
-          <div className="card-body">
+      <div className="usuario-container">
+        <div className="form-card">
+          <div className="form-header">Formulario Crear Usuario</div>
+          <div className="form-body">
+            {/* Campos del formulario */}
             <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Empleado:</span>
+              <label>Empleado:</label>
               <select value={idPersona} onChange={(e) => setIdPersona(e.target.value)}>
                 <option value="">Seleccione un empleado</option>
                 {personasSinUsuario.map((persona) => (
-                  <option key={persona.id} value={persona.id}>
-                    {persona.primer_nombre}
-                  </option>
+                  <option key={persona.id} value={persona.id}>{persona.primer_nombre}</option>
                 ))}
               </select>
             </div>
             <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Rol:</span>
+              <label>Rol:</label>
               <select value={idRol} onChange={(e) => setIdRol(e.target.value)}>
                 <option value="">Seleccione un rol</option>
                 {roles.map((rol) => (
-                  <option key={rol.id_rol} value={rol.id_rol}>
-                    {rol.nombre}
-                  </option>
+                  <option key={rol.id_rol} value={rol.id_rol}>{rol.nombre}</option>
                 ))}
               </select>
             </div>
             <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Estado:</span>
+              <label>Estado:</label>
               <select value={idEstado} onChange={(e) => setIdEstado(e.target.value)}>
                 <option value="">Seleccione un estado</option>
-                {estados.map((estado_usuario) => (
-                  <option key={estado_usuario.id_estado} value={estado_usuario.id_estado}>
-                    {estado_usuario.descripcion}
-                  </option>
+                {estados.map((estado) => (
+                  <option key={estado.id_estado} value={estado.id_estado}>{estado.descripcion}</option>
                 ))}
               </select>
             </div>
             <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Usuario:</span>
-              <input type="text" onChange={(event) => {setUsername(event.target.value);}} className="form-control" value={username} />
+              <label>Usuario:</label>
+              <input type="text" onChange={(event) => setUsername(event.target.value)} value={username} />
             </div>
             <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Contraseña:</span>
-              <input type="password" onChange={(event) => {setPassword(event.target.value);}} className="form-control" value={password} />
+              <label>Contraseña:</label>
+              <input type="password" onChange={(event) => setPassword(event.target.value)} value={password} />
             </div>
           </div>
-          <div className="card-footer text-muted">
+          <div className="form-footer">
             {editarUser ? (
-              <div>
-                <button className="btn btn-warning m-2" onClick={updateUser}>Actualizar Usuario</button>
-                <button className="btn btn-info m-2" onClick={addUser}>Cancelar</button>
-              </div>
+              <>
+                <button className="btn btn-warning" onClick={updateUser}>Actualizar Usuario</button>
+                <button className="btn btn-secondary" onClick={limpiarcampos}>Cancelar</button>
+              </>
             ) : (
-              <button className="btn btn-success" onClick={addUser}>Registrar Usuario</button>
+              <button className="btn btn-primary" onClick={addUser}>Registrar Usuario</button>
             )}
           </div>
         </div>
 
-        {/* Tabla de Lista de Usuarios */}
-        
-        <table className="table table-striped">
+        {/* Tabla de usuarios */}
+        <table className="usuario-table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Empleado</th>
-              <th scope="col">Rol</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Contraseña</th>
-              <th scope="col">Fecha de creación</th>
-              <th scope="col">Acciones</th>
+              <th>#</th>
+              <th>Empleado</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Usuario</th>
+              <th>Fecha de creación</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -383,27 +237,23 @@ function Usuario() {
 
               return (
                 <tr key={val.id_usuario}>
-                  <th>{val.id_usuario}</th>
+                  <td>{val.id_usuario}</td>
                   <td>{empleado ? empleado.primer_nombre : "No disponible"}</td>
                   <td>{rol ? rol.nombre : "No disponible"}</td>
                   <td>{estado ? estado.descripcion : "No disponible"}</td>
                   <td>{val.username}</td>
-                  <td>{val.password}</td>
                   <td>{val.fecha_creacion}</td>
                   <td>
-                    <div className="btn-group" Namrole="group" aria-label="Basic example">
-                      <button type="button" onClick={() => editarUsuario(val)} className="btn btn-info">Editar</button> 
-                    </div> 
-                  </td> 
-                </tr> 
+                    <button className="btn btn-info" onClick={() => editarUsuario(val)}>Editar</button>
+                  </td>
+                </tr>
               );
             })}
-          </tbody> 
-        </table> 
-      </div> 
-    </AllowedAccess> 
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
-  ); 
+          </tbody>
+        </table>
+      </div>
+    </AllowedAccess>
+  );
 }
 
 export default Usuario;

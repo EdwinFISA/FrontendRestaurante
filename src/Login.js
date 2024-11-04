@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-=======
-
 // Login.js
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
@@ -34,14 +30,13 @@ function Login() {
                         roles: res.data.user.roles || [],
                         permissions: res.data.user.permissions || []
                     });
-<<<<<<< HEAD
-=======
+
                     console.log("Roles:", res.data.user.roles);
-                  
+
                     console.log("Permissions:", res.data.user.permissions);
 
                     console.log('Navigating to /home');
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
+
                     navigate('/home');
                 } else {
                     setError('Usuario o contraseña incorrectos');

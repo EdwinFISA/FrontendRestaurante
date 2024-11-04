@@ -5,6 +5,7 @@ const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showRegistros, setShowRegistros] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
+    const [showCocina, setShowCocina] = useState(false);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -13,11 +14,19 @@ const Sidebar = () => {
     const toggleRegistros = () => {
         setShowRegistros(!showRegistros);
         setShowMenu(false);
+        setShowCocina(false);
     };
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
         setShowRegistros(false);
+        setShowCocina(false);
+    };
+
+    const toggleCocina = () => {
+        setShowCocina(!showCocina);
+        setShowRegistros(false);
+        setShowMenu(false);
     };
 
     return (
@@ -43,6 +52,7 @@ const Sidebar = () => {
                         </Link>
                     </li>
 
+                    {/* Usuarios Module */}
                     <li className="nav-item mb-2">
                         <button
                             className="btn btn-link nav-link text-white d-flex align-items-center"
@@ -83,6 +93,7 @@ const Sidebar = () => {
                         )}
                     </li>
 
+                    {/* Menu Module */}
                     <li className="nav-item mb-2">
                         <button
                             className="btn btn-link nav-link text-white d-flex align-items-center"
@@ -134,16 +145,43 @@ const Sidebar = () => {
                             </ul>
                         )}
                     </li>
-<<<<<<< HEAD
 
-=======
                     <li className="nav-item mb-2">
                         <Link to="/frontmesero" className="nav-link text-white d-flex align-items-center">
-                            <i className="<'food-menu'"></i>
+                            
                             <span>Mesero</span>
                         </Link>
                     </li>
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
+
+                    {/* Cocina Module */}
+                    <li className="nav-item mb-2">
+                        <button
+                            className="btn btn-link nav-link text-white d-flex align-items-center"
+                            onClick={toggleCocina}
+                        >
+                            <i className="bi bi-basket me-2"></i>
+                            <span className="me-3">Cocina</span>
+                            <i className={`bi ms-auto ${showCocina ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
+                        </button>
+
+                        {showCocina && (
+                            <ul className="nav flex-column ms-3">
+                                <li className="nav-item mb-2">
+                                    <Link to="/Cocina" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-hourglass-split me-2"></i>
+                                        <span>Órdenes Activas</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item mb-2">
+                                    <Link to="/Historial" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-archive me-2"></i>
+                                        <span>Historial de Órdenes</span>
+                                    </Link>
+                                </li>
+                            </ul>
+                        )}
+                    </li>
+
                     <li className="nav-item mb-2">
                         <Link to="/ajustes" className="nav-link text-white d-flex align-items-center">
                             <i className="bi bi-gear-fill me-2"></i>
@@ -163,3 +201,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+

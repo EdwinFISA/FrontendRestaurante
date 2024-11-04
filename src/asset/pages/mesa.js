@@ -5,6 +5,7 @@ import Axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import { AllowedAccess } from 'react-permission-role';
+import NoPermission from "./NoPermission";
 
 function Mesa() {
     // Hooks para manejar los datos de las mesas
@@ -104,7 +105,7 @@ function Mesa() {
         <AllowedAccess 
             roles={["admin"]} 
             permissions="manage-users" /*manage-menu*/
-            renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
+            renderAuthFailed={<NoPermission/>}
             isLoading={<p>Cargando...</p>}
         >
             <div className="container">
