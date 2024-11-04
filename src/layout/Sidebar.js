@@ -134,16 +134,13 @@ const Sidebar = () => {
                             </ul>
                         )}
                     </li>
-<<<<<<< HEAD
 
-=======
                     <li className="nav-item mb-2">
                         <Link to="/frontmesero" className="nav-link text-white d-flex align-items-center">
                             <i className="<'food-menu'"></i>
                             <span>Mesero</span>
                         </Link>
                     </li>
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
                     <li className="nav-item mb-2">
                         <Link to="/ajustes" className="nav-link text-white d-flex align-items-center">
                             <i className="bi bi-gear-fill me-2"></i>

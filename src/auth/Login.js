@@ -1,17 +1,13 @@
-<<<<<<< HEAD
-=======
-
 // Login.js
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { usePermission } from 'react-permission-role';
-import './asset/style/Login.css'; 
-import imgLogo from './asset/img/miralago.jpg'; 
-import imgFood from './asset/img/food-image.jpg'; 
+import '../style/Login.css'; 
+import imgLogo from '../asset/img/miralago.jpg'; 
+import imgFood from '../asset/img/food-image.jpg'; 
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -19,7 +15,7 @@ function Login() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { login } = useAuth();
-    const { setUser } = usePermission();
+    const { setUser } = usePermission(); 
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -34,14 +30,11 @@ function Login() {
                         roles: res.data.user.roles || [],
                         permissions: res.data.user.permissions || []
                     });
-<<<<<<< HEAD
-=======
                     console.log("Roles:", res.data.user.roles);
-                  
+                    
                     console.log("Permissions:", res.data.user.permissions);
 
                     console.log('Navigating to /home');
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
                     navigate('/home');
                 } else {
                     setError('Usuario o contraseña incorrectos');

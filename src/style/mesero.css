@@ -194,3 +194,35 @@
     border-color: #007bff; /* Cambio de color en focus y hover */
     outline: none; /* Quitar el contorno por defecto */
 }
+
+.resumen-platillo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.check-btn {
+    background-color: #FFA500; /* Color anaranjado inicial */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Suaviza la transición */
+}
+
+.check-btn.confirmado {
+    background-color: #32CD32; /* Cambia a color verde al confirmar */
+    color: #FFF;
+}
+
+.check-btn:hover {
+    opacity: 0.8;
+}
+
+.check-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed; /* Cambia el cursor para indicar que está deshabilitado */
+}

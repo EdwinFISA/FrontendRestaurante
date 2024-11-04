@@ -184,7 +184,7 @@ function Usuario() {
 
   return (
     <AllowedAccess 
-<<<<<<< HEAD
+
   roles={["admin"]} 
   permissions="manage-users" 
   renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
@@ -293,116 +293,6 @@ function Usuario() {
     </div>
   </div>
 </AllowedAccess>
-
-  
-
-=======
-      roles={["admin"]} 
-      permissions="manage-users" 
-      renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-      isLoading={<p>Cargando...</p>}
-    >
-      <div className="container">
-        <div className="card text-center">
-          <div className="card-header">FORMULARIO CREAR USUARIO</div>
-          <div className="card-body">
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Empleado:</span>
-              <select value={idPersona} onChange={(e) => setIdPersona(e.target.value)}>
-                <option value="">Seleccione un empleado</option>
-                {personasSinUsuario.map((persona) => (
-                  <option key={persona.id} value={persona.id}>
-                    {persona.primer_nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Rol:</span>
-              <select value={idRol} onChange={(e) => setIdRol(e.target.value)}>
-                <option value="">Seleccione un rol</option>
-                {roles.map((rol) => (
-                  <option key={rol.id_rol} value={rol.id_rol}>
-                    {rol.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Estado:</span>
-              <select value={idEstado} onChange={(e) => setIdEstado(e.target.value)}>
-                <option value="">Seleccione un estado</option>
-                {estados.map((estado_usuario) => (
-                  <option key={estado_usuario.id_estado} value={estado_usuario.id_estado}>
-                    {estado_usuario.descripcion}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Usuario:</span>
-              <input type="text" onChange={(event) => {setUsername(event.target.value);}} className="form-control" value={username} />
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Contraseña:</span>
-              <input type="password" onChange={(event) => {setPassword(event.target.value);}} className="form-control" value={password} />
-            </div>
-          </div>
-          <div className="card-footer text-muted">
-            {editarUser ? (
-              <div>
-                <button className="btn btn-warning m-2" onClick={updateUser}>Actualizar Usuario</button>
-                <button className="btn btn-info m-2" onClick={addUser}>Cancelar</button>
-              </div>
-            ) : (
-              <button className="btn btn-success" onClick={addUser}>Registrar Usuario</button>
-            )}
-          </div>
-        </div>
-
-        {/* Tabla de Lista de Usuarios */}
-        
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Empleado</th>
-              <th scope="col">Rol</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Contraseña</th>
-              <th scope="col">Fecha de creación</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usuariolista.map((val) => {
-              const empleado = personas.find(p => p.id === val.id_persona);
-              const rol = roles.find(r => r.id_rol === val.rol_id);
-              const estado = estados.find(e => e.id_estado === val.estado_id);
-
-              return (
-                <tr key={val.id_usuario}>
-                  <th>{val.id_usuario}</th>
-                  <td>{empleado ? empleado.primer_nombre : "No disponible"}</td>
-                  <td>{rol ? rol.nombre : "No disponible"}</td>
-                  <td>{estado ? estado.descripcion : "No disponible"}</td>
-                  <td>{val.username}</td>
-                  <td>{val.password}</td>
-                  <td>{val.fecha_creacion}</td>
-                  <td>
-                    <div className="btn-group" Namrole="group" aria-label="Basic example">
-                      <button type="button" onClick={() => editarUsuario(val)} className="btn btn-info">Editar</button> 
-                    </div> 
-                  </td> 
-                </tr> 
-              );
-            })}
-          </tbody> 
-        </table> 
-      </div> 
-    </AllowedAccess> 
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
   ); 
 }
 

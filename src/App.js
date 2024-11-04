@@ -1,5 +1,5 @@
 
-import AppRoutes from './AppRoutes';
+import AppRoutes from './routes/AppRoutes';
 import { AuthProvider } from './context/AuthContext';
 import { PermissionProvider } from 'react-permission-role';
 import './config/axiosConfig'

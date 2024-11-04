@@ -157,7 +157,6 @@ function Empleado() {
 
   return (
     <AllowedAccess 
-<<<<<<< HEAD
     roles={["admin"]} 
     permissions="manage-users" 
     renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
@@ -200,11 +199,11 @@ function Empleado() {
                                 }
                             }}
                             value={field === 'primerNombre' ? primerNombre :
-                                   field === 'segundoNombre' ? segundoNombre :
-                                   field === 'primerApellido' ? primerApellido :
-                                   field === 'segundoApellido' ? segundoApellido :
-                                   field === 'telefono' ? telefono :
-                                   email}
+                                  field === 'segundoNombre' ? segundoNombre :
+                                  field === 'primerApellido' ? primerApellido :
+                                  field === 'segundoApellido' ? segundoApellido :
+                                  field === 'telefono' ? telefono :
+                                  email}
                             className="form-control"
                             placeholder={`Ingrese su ${field.replace(/([A-Z])/g, ' $1')}`}
                             aria-label={field}
@@ -305,160 +304,6 @@ function Empleado() {
     </div>
 </AllowedAccess>
 
-
-=======
-      roles={["admin"]} 
-      permissions="manage-users" 
-      renderAuthFailed={<p>No tienes permiso para ver esto.</p>}
-      isLoading={<p>Cargando...</p>}
-    >
-      <div className="container">
-        <div className="card text-center">
-          <div className="card-header">FORMULARIO DE EMPLEADOS</div>
-          <div className="card-body">
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Primer nombre: </span>
-              <input
-                type="text"
-                onChange={(event) => setprimerNombre(event.target.value)}
-                className="form-control"
-                value={primerNombre}
-                placeholder="Ingrese su Primer Nombre"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Segundo Nombre: </span>
-              <input
-                type="text"
-                onChange={(event) => setsegundoNombre(event.target.value)}
-                value={segundoNombre}
-                className="form-control"
-                placeholder="Ingrese su Segundo Nombre"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Primer Apellido: </span>
-              <input
-                type="text"
-                onChange={(event) => setprimerApellido(event.target.value)}
-                value={primerApellido}
-                className="form-control"
-                placeholder="Ingrese su Primer Apellido"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Segundo Apellido: </span>
-              <input
-                type="text"
-                onChange={(event) => setsegundoApellido(event.target.value)}
-                value={segundoApellido}
-                className="form-control"
-                placeholder="Ingrese su Segundo Apellido"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1"> Telefono: </span>
-              <input
-                type="number"
-                onChange={(event) => settelefono(event.target.value)}
-                value={telefono}
-                className="form-control"
-                placeholder="Ingrese su telefono"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-addon1">Direccion: </span>
-              <input
-                type="text"
-                onChange={(event) => setemail(event.target.value)}
-                value={email}
-                className="form-control"
-                placeholder="Ingrese su Direccion"
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-          </div>
-          <div className="card-footer text-muted">
-            {editar ? (
-              <div>
-                <button className="btn btn-warning m-2" onClick={update}>Actualizar persona</button>
-                <button className="btn btn-info m-2" onClick={limpiarcampos}>Cancelar</button>
-              </div>
-            ) : (
-              <button className="btn btn-success" onClick={add}>Registrar</button>
-            )}
-          </div>
-        </div>
-
-        <div className="mb-3">
-          <input 
-            type="text" 
-            placeholder="Buscar..." 
-            className="form-control mt-3" 
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)} 
-          />
-        </div>
-
-        <div className="table-responsive">
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Primer Nombre</th>
-                <th>Segundo Nombre</th>
-                <th>Primer Apellido</th>
-                <th>Segundo Apellido</th>
-                <th>Telefono</th>
-                <th>Email</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((val, key) => {
-                return (
-                  <tr key={key}>
-                    <td>{val.id}</td>
-                    <td>{val.primer_nombre}</td>
-                    <td>{val.segundo_nombre}</td>
-                    <td>{val.primer_apellido}</td>
-                    <td>{val.segundo_apellido}</td>
-                    <td>{val.telefono}</td>
-                    <td>{val.email}</td>
-                    <td>
-                      <button className="btn btn-info" onClick={() => editarpersona(val)}>Editar</button>
-                      <button className="btn btn-danger" onClick={() => deletepersona(val)}>Eliminar</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-
-        <nav>
-          <ul className="pagination">
-            {pageNumbers.map((number) => (
-              <li key={number} className={`page-item ${currentPage === number ? "active" : ""}`}>
-                <button className="page-link" onClick={() => paginate(number)}>{number}</button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-    </AllowedAccess>
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
   );
 }
 

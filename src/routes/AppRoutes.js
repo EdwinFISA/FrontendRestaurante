@@ -1,30 +1,24 @@
 import React from "react";
 import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
-import Home from "./asset/pages/home";
-import Empleado from "./asset/pages/empleado";
-import Usuario from "./asset/pages/usuario";
-import Login from "./Login";
-import Sidebar from './Sidebar';
-import Reporteuser from './asset/pages/reporteuser';
-import Ajustes from './asset/pages/ajustes';
-import Logout from './Logout';
-import Categoriaplato from "./asset/pages/categoriaplato";
-import Plato from "./asset/pages/plato";
-import Mesa from "./asset/pages/mesa";
-import Orden from "./asset/pages/orden";
-import Detalleorden from "./asset/pages/detalleorden";
-<<<<<<< HEAD
-import AdminPanel from './asset/pages/AdminPanel';
-import Reporteempleado from "./asset/pages/reporteempleado";
-import ReportePlato from "./asset/pages/reporteplato";
-import Error404 from './asset/pages/Error404';
-=======
-import AdminPanel from './asset/pages/AdminPanel'; // Importa el AdminPanel
-import Reporteempleado from  "./asset/pages/reporteempleado";
-import ReportePlato from  "./asset/pages/reporteplato";
-import Frontmesero from "./asset/pages/frontmesero"
->>>>>>> c36dd0d23eeb68f4b9d4b3568ad60ebc44050a53
+import { useAuth } from '../context/AuthContext';
+import Home from "../pages/home";
+import Empleado from "../pages/empleado";
+import Usuario from "../pages/usuario";
+import Login from "../auth/Login";
+import Logout from '../auth/Logout';
+import Sidebar from '../layout/Sidebar';
+import Reporteuser from '../pages/reporteuser';
+import Ajustes from '../pages/ajustes';
+import Categoriaplato from "../pages/categoriaplato";
+import Plato from "../pages/plato";
+import Mesa from "../pages/mesa";
+import Orden from "../pages/orden";
+import Detalleorden from "../pages/detalleorden";
+import AdminPanel from '../pages/AdminPanel';
+import Reporteempleado from  "../pages/reporteempleado";
+import ReportePlato from  "../pages/reporteplato";
+import Frontmesero from "../pages/frontmesero"
+import Error404 from '../pages/Error404';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
