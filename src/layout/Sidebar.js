@@ -152,7 +152,6 @@ const Sidebar = () => {
                             <span>Mesero</span>
                         </Link>
                     </li>
-
                     {/* Cocina Module */}
                     <li className="nav-item mb-2">
                         <button
@@ -181,7 +180,6 @@ const Sidebar = () => {
                             </ul>
                         )}
                     </li>
-
                     <li className="nav-item mb-2">
                         <Link to="/ajustes" className="nav-link text-white d-flex align-items-center">
                             <i className="bi bi-gear-fill me-2"></i>

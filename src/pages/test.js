@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Asegúrate de tener esta librería instalada
@@ -194,6 +196,9 @@ return (
         <div className="nuevo-menu">
             {platillos.map((platillo) => (
                 <div key={platillo.id} className="nuevo-platillo">
+                    <p>
+                        <img src={platillo.imagen} alt={platillo.nombre} style={{ width: '100px', height: 'auto' }} />
+                    </p>
                     <p>{platillo.nombre}</p>
                     <p>Precio: {platillo.precio}</p>
                     <div className="cantidad-control">

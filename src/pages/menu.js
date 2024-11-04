@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import styles from '../style/Menu.module.css'; // Importamos los estilos como un módulo
 import imghamburgesa from '../img/hamburgesas.jfif'
 import imgcamarones from '../img/CAMRONES.jpg'
