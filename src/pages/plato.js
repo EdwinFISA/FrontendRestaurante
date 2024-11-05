@@ -129,7 +129,7 @@ function Platillos() {
                             <input
                                 type="text"
                                 onChange={(event) => setNombre(event.target.value)}
-                                className="form-control"
+                                //className="form-control"
                                 value={nombre}
                             />
                         </div>
@@ -137,7 +137,7 @@ function Platillos() {
                             <span className="input-group-text" id="basic-addon1">
                                 Categoría:{" "}
                             </span>
-                            <select value={categoriaId} onChange={(e) => setCategoriaId(e.target.value)} className="form-select">
+                            <select value={categoriaId} onChange={(e) => setCategoriaId(e.target.value)} /*className="form-select"*/   >
                                 <option value="">Seleccione una categoría</option>
                                 {categorias.map((categoria) => (
                                     <option key={categoria.id} value={categoria.id}>
@@ -153,7 +153,7 @@ function Platillos() {
                             <input
                                 type="number"
                                 onChange={(event) => setPrecio(event.target.value)}
-                                className="form-control"
+                                //className="form-control"
                                 value={precio}
                             />
                         </div>

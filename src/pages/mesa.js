@@ -117,7 +117,7 @@ function Mesa() {
                             <input
                                 type="number"
                                 onChange={(event) => setNumero(event.target.value)}
-                                className="form-control"
+                                //className="form-control"
                                 value={numero}
                             />
                         </div>
@@ -126,7 +126,7 @@ function Mesa() {
                             <input
                                 type="number"
                                 onChange={(event) => setCapacidadMax(event.target.value)}
-                                className="form-control"
+                                //className="form-control"
                                 value={capacidadMax}
                             />
                         </div>

@@ -173,7 +173,7 @@ function Orden() {
                             <span className="input-group-text">Fecha Orden: </span>
                             <input
                                 type="datetime-local"
-                                className="form-control"
+                                //className="form-control"
                                 value={fechaOrden}
                                 onChange={(e) => setFechaOrden(e.target.value)}
                             />

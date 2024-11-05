@@ -151,7 +151,7 @@ function DetalleOrden() {
                                 ID Orden:{" "}
                             </span>
                             <select
-                                className="form-control"
+                                //className="form-control"
                                 value={ordenId}
                                 onChange={(event) => setOrdenId(event.target.value)}
                             >
@@ -166,7 +166,7 @@ function DetalleOrden() {
                                 ID Platillo:{" "}
                             </span>
                             <select
-                                className="form-control"
+                                //className="form-control"
                                 value={platilloId}
                                 onChange={(event) => setPlatilloId(event.target.value)}
                             >
@@ -183,7 +183,7 @@ function DetalleOrden() {
                             <input
                                 type="number"
                                 onChange={(event) => setCantidad(event.target.value)}
-                                className="form-control"
+                                //className="form-control"
                                 value={cantidad}
                             />
                         </div>

@@ -146,7 +146,7 @@ function Categoriaplato() {
                             <input
                             type="text"
                             onChange={(event) => setNombre(event.target.value)}
-                            className="form-control" /* Se aplican las nuevas propiedades de estilo */
+                            //className="form-control" /* Se aplican las nuevas propiedades de estilo */
                             value={nombre}
                             placeholder="Ingrese el nombre de la categoría"
                             aria-label="Nombre"
