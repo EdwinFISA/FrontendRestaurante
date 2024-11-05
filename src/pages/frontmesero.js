@@ -15,7 +15,9 @@ const Mesero = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [ordenGenerada, setOrdenGenerada] = useState(false); 
     const [mostrarSeccionOrden, setMostrarSeccionOrden] = useState(true); 
-    const [ordenId, setOrdenId] = useState(null); // Para almacenar el ID de la orden generada
+    const [ordenId, setOrdenId] = useState(null);
+    
+
 
     useEffect(() => {
         obtenerCategorias();
@@ -155,9 +157,6 @@ const Mesero = () => {
         }
     };
     
-    
-    
-    
     const confirmarPlatillo = async (platilloId) => {
         // Buscar el platillo en el pedido
         const platillo = pedido.find(item => item.id === platilloId);
@@ -219,10 +218,6 @@ const Mesero = () => {
     };
     
 
-
-    
-    
-
     const limpiarCampos = () => {
         setPedido([]);
         setMesaSeleccionada(null);
@@ -230,19 +225,71 @@ const Mesero = () => {
         setPlatillos([]);
     };
 
-    const handleContinuar = () => {
-        Swal.fire({
-            title: "<strong>Pedido finalizado!</strong>",
-            html: "<i>El pedido se ha completado exitosamente</i>",
-            icon: "success",
-            timer: 3000,
-        });
-        limpiarCampos();
-        setMostrarSeccionOrden(true); // Muestra la sección de Generar Orden después de finalizar el pedido
-        setOrdenGenerada(false); // Oculta el menú de platillos
-    };
 
- 
+    const eliminarPlatillo = async (platilloId) => {
+        if (!ordenId) {
+            Swal.fire({
+                title: "Error",
+                text: "No se puede eliminar el platillo porque no hay una orden activa.",
+                icon: "error",
+            });
+            return; 
+        }
+    
+        try {
+            const response = await axios.delete(`http://localhost:3001/detalle_orden/eliminar/${ordenId}/${platilloId}`, {
+                params: { orden_id: ordenId }
+            });
+    
+            if (response.status === 200 && response.data.success) {
+                setPedido(prevPedido => prevPedido.filter(item => item.id !== platilloId));
+                Swal.fire({
+                    title: "<strong>Platillo eliminado!</strong>",
+                    html: `<i>El platillo ha sido eliminado del pedido. Total actualizado: Q${response.data.data.nuevoTotal}</i>`,
+                    icon: "success",
+                    timer: 3000,
+                });
+            }
+        } catch (error) {
+            console.error("Error al eliminar el platillo:", error);
+            Swal.fire({
+                title: "Error",
+                text: "No se pudo eliminar el platillo.",
+                icon: "error",
+            });
+        }
+    };
+    
+// Función para enviar la orden al backend y cambiar el estado a "preparando"
+const enviarOrden = async (ordenId) => {
+    try {
+        const response = await axios.post(`http://localhost:3001/orden/enviar-orden/${ordenId}`); 
+
+        if (response.status === 200 && response.data.success) {
+            Swal.fire({
+                title: "Orden enviada!",
+                text: "La orden ahora está en estado 'Preparando'.",
+                icon: "success",
+                timer: 3000,
+            });
+            // Aquí podrías actualizar el estado de la orden en tu UI si es necesario
+        } else {
+            throw new Error("No se pudo actualizar el estado de la orden");
+        }
+    } catch (error) {
+        console.error("Error al enviar la orden:", error);
+        Swal.fire({
+            title: "Error",
+            text: "No se pudo cambiar el estado de la orden a 'Preparando'.",
+            icon: "error",
+        });
+    }
+    limpiarCampos();
+    setMostrarSeccionOrden(true); // Muestra la sección de Generar Orden después de finalizar el pedido
+    setOrdenGenerada(false); // Oculta el menú de platillos
+};
+    
+
     return (
         <div className="nuevo-container">
             {mostrarSeccionOrden && (
@@ -252,8 +299,7 @@ const Mesero = () => {
                         <select value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
                             <option value="">Seleccione un usuario</option>
                             {usuarios.map((usuario) => (
-                                <option key={usuario.id} value={usuario.id}>
-                                    {usuario.id_usuario}
+                                <option key={usuario.id} value={usuario.id}>{usuario.id_usuario}
                                 </option>
                             ))}
                         </select>
@@ -326,20 +372,32 @@ const Mesero = () => {
     {pedido.map((item) => (
         <div key={item.id} className="resumen-platillo">
             <p>{item.nombre} - {item.cantidad} x Q{item.precio}</p>
-            <button
-                onClick={() => confirmarPlatillo(item.id)}
-                className={`check-btn ${item.confirmado ? 'confirmado' : ''}`}
-                disabled={item.confirmado}  // Desactiva el botón si el platillo está confirmado
-            >
-                {item.confirmado ? '✔️' : '✓'}
-            </button>
+
+            {!item.confirmado && (
+                <button
+                    onClick={() => confirmarPlatillo(item.id)}
+                    className="check-btn"
+                >
+                    ✓
+                </button>
+            )}
+
+            {item.confirmado && (
+                <button
+                    onClick={() => eliminarPlatillo(item.id)}
+                    className="delete-btn"
+                >
+                    ❌
+                </button>
+            )}
         </div>
     ))}
 </div>
+
                         <p className="nuevo-total">
                 Total: Q{pedido.reduce((total, item) => total + parseFloat(item.precio) * item.cantidad, 0).toFixed(2)}
                         </p>
-                        <button onClick={handleContinuar} className="nuevo-finalizar-btn">Confirmar Pedido</button>
+                        <button onClick={() => enviarOrden(ordenId)} className="nuevo-finalizar-btn">Confirmar Pedido</button>
                     </div>
                 </>
             )}

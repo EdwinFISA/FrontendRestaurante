@@ -213,16 +213,21 @@
     transition: background-color 0.3s ease; /* Suaviza la transición */
 }
 
-.check-btn.confirmado {
-    background-color: #32CD32; /* Cambia a color verde al confirmar */
-    color: #FFF;
-}
-
 .check-btn:hover {
-    opacity: 0.8;
+    background-color: #499747;
 }
 
-.check-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed; /* Cambia el cursor para indicar que está deshabilitado */
+.delete-btn {
+    background-color: #eb7d00; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #740e0e; /* Rojo oscuro al pasar el mouse */
 }
