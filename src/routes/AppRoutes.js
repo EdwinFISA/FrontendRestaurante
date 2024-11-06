@@ -26,6 +26,7 @@ import Historial from "../pages/Historial";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'boxicons/css/boxicons.min.css';
 
 const PrivateLayout = () => {
   const { user } = useAuth();

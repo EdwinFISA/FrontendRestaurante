@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import 'boxicons/css/boxicons.min.css';
+import "../style/sidebar.css";
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -99,7 +101,7 @@ const Sidebar = () => {
                             className="btn btn-link nav-link text-white d-flex align-items-center"
                             onClick={toggleMenu}
                         >
-                            <i className="bi bi-card-checklist me-2"></i>
+                            <i class='bx bxs-food-menu'></i>
                             <span className="me-3">Menu</span>
                             <i className={`bi ms-auto ${showMenu ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
                         </button>
@@ -124,7 +126,7 @@ const Sidebar = () => {
                                         <span>Mesa</span>
                                     </Link>
                                 </li>
-                                <li className="nav-item mb-2">
+                                {/* <li className="nav-item mb-2">
                                     <Link to="/orden" className="nav-link text-white d-flex align-items-center">
                                         <i className="bi bi-receipt me-2"></i>
                                         <span>Orden</span>
@@ -135,7 +137,7 @@ const Sidebar = () => {
                                         <i className="bi bi-receipt-cutoff me-2"></i>
                                         <span>Detalle Orden</span>
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li className="nav-item mb-2">
                                     <Link to="/reporteplato" className="nav-link text-white d-flex align-items-center">
                                         <i className="bi bi-card-heading me-2"></i>
@@ -145,14 +147,13 @@ const Sidebar = () => {
                             </ul>
                         )}
                     </li>
-
                     <li className="nav-item mb-2">
                         <Link to="/frontmesero" className="nav-link text-white d-flex align-items-center">
-                            
+                        <i class='bx bxs-dish'></i>
                             <span>Mesero</span>
                         </Link>
                     </li>
-                    {/* Cocina Module */}
+                    {/* Modulo Cocina */}
                     <li className="nav-item mb-2">
                         <button
                             className="btn btn-link nav-link text-white d-flex align-items-center"
