@@ -4,10 +4,9 @@ import '../style/cocina.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { Modal, Button } from 'react-bootstrap'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
 
 const Cocina = () => {
-    // Agregamos dos órdenes estáticas para la vista previa
     const [ordenes, setOrdenes] = useState([
         {
             ordenId: 1,
@@ -33,7 +32,6 @@ const Cocina = () => {
     const [modalShow, setModalShow] = useState(false);
     const [ordenSeleccionada, setOrdenSeleccionada] = useState(null);
 
-    // Obtener órdenes con estado "Preparando" desde el backend
     useEffect(() => {
         const fetchOrdenes = async () => {
             try {
@@ -76,24 +74,30 @@ const Cocina = () => {
                                             <p className="card-title small">Usuario: {orden.usuarioId} - Mesa: {orden.mesaId}</p>
                                         </div>
                                         <h5 className="card-number text-center mb-3">Orden No: {orden.ordenId}</h5>
-                                        <table className="table table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>Platillo</th>
-                                                    <th>Cantidad</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {orden.items.map((item, index) => (
-                                                    <tr key={index}>
-                                                        <td>{item.nombre}</td>
-                                                        <td>{item.cantidad}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                        <div className="items-list">
+                                            <div className="items-scroll">
+                                                <table className="table table-sm table-bordered">
+                                                    <thead className="thead-fixed">
+                                                        <tr>
+                                                            <th>Platillo</th>
+                                                            <th>Cantidad</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {orden.items.map((item, index) => (
+                                                            <tr key={index}>
+                                                                <td>{item.nombre}</td>
+                                                                <td>{item.cantidad}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card-footer">
                                         <Button 
-                                            className="btn btn-success btn-block w-100"
+                                            className="btn btn-mark-as-done"
                                             onClick={() => marcarComoListo(orden.ordenId)}
                                         >
                                             <FontAwesomeIcon icon={faCheckCircle} /> Marcar como Listo
