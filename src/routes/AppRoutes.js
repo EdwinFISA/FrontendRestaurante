@@ -22,6 +22,13 @@ import Frontmesero from "../pages/frontmesero"
 import Error404 from '../pages/Error404';
 import Cocina from "../pages/Cocina";
 import Historial from "../pages/Historial";
+import OrdenesListas from "../pages/ordeneslistas";
+import Clientes from "../pages/clientes";
+import Reporteclientes from "../pages/reporteclientes";
+import Ventasdiarias from "../pages/repventasdiarias";
+import ReporteVentasPorPlatillo from "../pages/repventasplatillo";
+import ReporteVentasPorMesa from "../pages/repventasmesa";
+import ReporteVentasPorMes from "../pages/repventasmes";
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -60,6 +67,8 @@ const AppRoutes = () => {
         <Route path="empleado" element={<Empleado />} />
         <Route path="reporteuser" element={<Reporteuser />} />
         <Route path="reporteempleado" element={<Reporteempleado />} />
+        <Route path="clientes" element={<Clientes />} />
+        <Route path="reporteclientes" element={<Reporteclientes />} />
         <Route path="categoriaplato" element={<Categoriaplato />} />
         <Route path="plato" element={<Plato />} />
         <Route path="mesa" element={<Mesa />} />
@@ -69,6 +78,11 @@ const AppRoutes = () => {
         <Route path="frontmesero" element={<Frontmesero />} />
         <Route path="Cocina" element={<Cocina />} />
         <Route path="Historial" element={<Historial />} />
+        <Route path="ordeneslistas" element={<OrdenesListas />} />
+        <Route path="ventasdiarias" element={<Ventasdiarias />} />
+        <Route path="repventasplatillo" element={<ReporteVentasPorPlatillo />} />
+        <Route path="repventasmesa" element={<ReporteVentasPorMesa />} />
+        <Route path="repventasmes" element={<ReporteVentasPorMes />} />
         <Route path="ajustes" element={<Ajustes />} />
         <Route path="Logout" element={<Logout />} />
       </Route>

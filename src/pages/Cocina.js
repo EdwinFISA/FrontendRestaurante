@@ -7,28 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
 
 const Cocina = () => {
-    const [ordenes, setOrdenes] = useState([
-        {
-            ordenId: 1,
-            mesaId: 5,
-            usuarioId: 'Carlos',
-            tiempoPreparacion: 120,
-            items: [
-                { nombre: 'Tacos', cantidad: 2 },
-                { nombre: 'Ensalada', cantidad: 1 }
-            ]
-        },
-        {
-            ordenId: 2,
-            mesaId: 3,
-            usuarioId: 'Ana',
-            tiempoPreparacion: 300,
-            items: [
-                { nombre: 'Pizza', cantidad: 1 },
-                { nombre: 'Soda', cantidad: 3 }
-            ]
-        }
-    ]);
+    const [ordenes, setOrdenes] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [ordenSeleccionada, setOrdenSeleccionada] = useState(null);
 
@@ -51,8 +30,15 @@ const Cocina = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-    const marcarComoListo = (id) => {
-        setOrdenes(ordenes.filter(orden => orden.ordenId !== id));
+    const marcarComoListo = async (ordenId) => {
+        try {
+            const response = await axios.post(`http://localhost:3001/orden/responder-orden/${ordenId}`);
+            if (response.data.success) {
+                setOrdenes(ordenes.filter(orden => orden.ordenId !== ordenId));
+            }
+        } catch (error) {
+            console.error("Error al marcar la orden como lista:", error);
+        }
     };
 
     const handleClose = () => {
