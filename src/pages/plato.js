@@ -15,6 +15,7 @@ function Platillos() {
     const [listaPlatillos, setListaPlatillosState] = useState([]); // Cambié el nombre del estado a setListaPlatillosState para evitar conflictos con la función listaPlatillos
     const [categorias, setCategorias] = useState([]);
     const [editarPlatillo, setEditarPlatilloState] = useState(false); // Cambié a setEditarPlatilloState
+    const [imagen, setImagen] = useState(null); // Estado para almacenar la imagen
 
     // Obtener lista de categorías
     useEffect(() => {
@@ -45,10 +46,18 @@ function Platillos() {
 
     const guardarPlatillo = async () => {
         try {
-            await Axios.post("http://localhost:3001/platillos/guardar", {
-                nombre: nombre,
-                categoria_id: categoriaId,
-                precio: precio
+            const formData = new FormData();
+            formData.append("nombre", nombre);
+            formData.append("categoria_id", categoriaId);
+            formData.append("precio", precio);
+            if (imagen) {
+                formData.append("imagen", imagen);
+            }
+
+            await Axios.post("http://localhost:3001/platillos/guardar", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
             await listarPlatillos();
             limpiarCampos();
@@ -71,11 +80,19 @@ function Platillos() {
 
     const actualizarPlatillo = async () => {
         try {
-            await Axios.put("http://localhost:3001/platillos/actualizar", {
-                id: id,
-                nombre: nombre,
-                categoria_id: categoriaId,
-                precio: precio
+            const formData = new FormData();
+            formData.append("id", id);
+            formData.append("nombre", nombre);
+            formData.append("categoria_id", categoriaId);
+            formData.append("precio", precio);
+            if (imagen) {
+                formData.append("imagen", imagen);
+            }
+
+            await Axios.put("http://localhost:3001/platillos/actualizar", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
             await listarPlatillos();
             limpiarCampos();
@@ -100,6 +117,7 @@ function Platillos() {
         setCategoriaId("");
         setPrecio("");
         setId("");
+        setImagen(null); // Limpiar imagen
         setEditarPlatilloState(false); // Cambié a setEditarPlatilloState
     };
 
@@ -109,13 +127,18 @@ function Platillos() {
         setNombre(platillo.nombre);
         setCategoriaId(platillo.categoria_id);
         setPrecio(platillo.precio);
+        setImagen(platillo.imagen); // Establecer la imagen actual del platillo para edición
+    };
+
+    const manejarImagen = (e) => {
+        setImagen(e.target.files[0]); // Almacenamos el archivo de imagen en el estado
     };
 
     return (
         <AllowedAccess 
             roles={["admin"]} 
             permissions="manage-users" /*manage-menu*/
-            renderAuthFailed={<NoPermission/>}
+            renderAuthFailed={<NoPermission />}
             isLoading={<p>Cargando...</p>}
         >
             <div className="container">
@@ -129,7 +152,6 @@ function Platillos() {
                             <input
                                 type="text"
                                 onChange={(event) => setNombre(event.target.value)}
-                                //className="form-control"
                                 value={nombre}
                             />
                         </div>
@@ -137,7 +159,7 @@ function Platillos() {
                             <span className="input-group-text" id="basic-addon1">
                                 Categoría:{" "}
                             </span>
-                            <select value={categoriaId} onChange={(e) => setCategoriaId(e.target.value)} /*className="form-select"*/   >
+                            <select value={categoriaId} onChange={(e) => setCategoriaId(e.target.value)}>
                                 <option value="">Seleccione una categoría</option>
                                 {categorias.map((categoria) => (
                                     <option key={categoria.id} value={categoria.id}>
@@ -153,8 +175,18 @@ function Platillos() {
                             <input
                                 type="number"
                                 onChange={(event) => setPrecio(event.target.value)}
-                                //className="form-control"
                                 value={precio}
+                            />
+                        </div>
+                        {/* Input para cargar imagen */}
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">
+                                Imagen:{" "}
+                            </span>
+                            <input
+                                type="file"
+                                accept="image/*" // Solo acepta imágenes
+                                onChange={manejarImagen}
                             />
                         </div>
                     </div>
@@ -195,7 +227,13 @@ function Platillos() {
                                     <td>{val.nombre}</td>
                                     <td>{categoria ? categoria.nombre : "No disponible"}</td>
                                     <td>{val.precio}</td>
-                                    <td> <img src={val.imagen} alt={val.nombre} style={{ width: '100px', height: 'auto' }} /></td>
+                                    <td> 
+                                        <img 
+                                            src={val.imagen} 
+                                            alt={val.nombre} 
+                                            style={{ width: '100px', height: 'auto' }} 
+                                        />
+                                    </td>
                                     <td>
                                         <div className="btn-group" role="group">
                                             <button type="button" onClick={() => editarPlatilloHandler(val)} className="btn btn-info">

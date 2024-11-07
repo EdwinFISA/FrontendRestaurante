@@ -4,14 +4,13 @@ import '../style/cocina.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { Modal, Button } from 'react-bootstrap'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
 
 const Cocina = () => {
     const [ordenes, setOrdenes] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [ordenSeleccionada, setOrdenSeleccionada] = useState(null);
 
-    // Obtener órdenes con estado "Preparando" desde el backend
     useEffect(() => {
         const fetchOrdenes = async () => {
             try {
@@ -22,20 +21,24 @@ const Cocina = () => {
             }
         };
 
-        // Llama a la función al cargar el componente
         fetchOrdenes();
 
-        // Establece un intervalo para actualizar las órdenes cada 5 segundos
         const intervalId = setInterval(() => {
             fetchOrdenes();
-        }, 5000); // 5000 ms = 5 segundos
+        }, 5000);
 
-        // Limpieza del intervalo al desmontar el componente
         return () => clearInterval(intervalId);
-    }, []); // Dependencias vacías para que se ejecute una sola vez al montar
+    }, []);
 
-    const marcarComoListo = (id) => {
-        setOrdenes(ordenes.filter(orden => orden.ordenId !== id));
+    const marcarComoListo = async (ordenId) => {
+        try {
+            const response = await axios.post(`http://localhost:3001/orden/responder-orden/${ordenId}`);
+            if (response.data.success) {
+                setOrdenes(ordenes.filter(orden => orden.ordenId !== ordenId));
+            }
+        } catch (error) {
+            console.error("Error al marcar la orden como lista:", error);
+        }
     };
 
     const handleClose = () => {
@@ -44,48 +47,47 @@ const Cocina = () => {
     };
 
     return (
-        <div className="container cocina-container">
-            <h1 className="text-center my-4">Cocina</h1>
+        <div className="container-fluid cocina-container">
             <div className="row">
                 <div className="col-md-12">
-                    <h2>Órdenes Activas</h2>
+                    <h2 className="text-center my-4">Órdenes Activas</h2>
                     <div className="row">
                         {ordenes.map((orden) => (
-                            <div key={orden.ordenId} className="col-md-4 col-sm-6 mb-4"> {/* Aumentar el tamaño de la columna para responsividad */}
+                            <div key={orden.ordenId} className="col-lg-3 col-md-4 col-sm-6 mb-4">
                                 <div className="orden-card card h-100 custom-card">
                                     <div className="card-body">
                                         <div className="orden-header d-flex justify-content-between align-items-center">
-                                            <p className="card-title small">Mesa: {orden.mesaId}</p>
-                                            <span className="estado badge bg-warning">Preparando</span>
+                                            <p className="card-title small">Usuario: {orden.usuarioId} - Mesa: {orden.mesaId}</p>
                                         </div>
-                                        <h3 className="card-subtitle mb-2 small">Usuario: {orden.usuarioId}</h3>
-                                        <h5 className="card-number">Orden No: {orden.ordenId}</h5>
-                                        <p>Tiempo en preparación: {orden.tiempoPreparacion} segundos</p> {/* Mostrar tiempo en preparación */}
-                                        <table className="table table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>Platillo</th>
-                                                    <th>Cantidad</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {orden.items.map((item, index) => (
-                                                    <tr key={index}>
-                                                        <td>{item.nombre}</td>
-                                                        <td>{item.cantidad}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                        <div className="orden-footer d-flex justify-content-between align-items-center">
-                                            <p className="small"><FontAwesomeIcon icon={faClock} /> Tiempo estimado</p>
-                                            <button 
-                                                className="btn btn-success btn-sm" 
-                                                onClick={() => marcarComoListo(orden.ordenId)}
-                                            >
-                                                <FontAwesomeIcon icon={faCheckCircle} /> Marcar como Listo
-                                            </button>
+                                        <h5 className="card-number text-center mb-3">Orden No: {orden.ordenId}</h5>
+                                        <div className="items-list">
+                                            <div className="items-scroll">
+                                                <table className="table table-sm table-bordered">
+                                                    <thead className="thead-fixed">
+                                                        <tr>
+                                                            <th>Platillo</th>
+                                                            <th>Cantidad</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {orden.items.map((item, index) => (
+                                                            <tr key={index}>
+                                                                <td>{item.nombre}</td>
+                                                                <td>{item.cantidad}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div className="card-footer">
+                                        <Button 
+                                            className="btn btn-mark-as-done"
+                                            onClick={() => marcarComoListo(orden.ordenId)}
+                                        >
+                                            <FontAwesomeIcon icon={faCheckCircle} /> Marcar como Listo
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +105,6 @@ const Cocina = () => {
                         <div>
                             <h4>Mesa: {ordenSeleccionada.mesaId}</h4>
                             <p>Usuario: {ordenSeleccionada.usuarioId}</p>
-                            <p>Tiempo en preparación: {ordenSeleccionada.tiempoPreparacion} segundos</p> {/* Mostrar tiempo en preparación */}
                             <h5>Items:</h5>
                             <ul>
                                 {ordenSeleccionada.items.map((item, index) => (

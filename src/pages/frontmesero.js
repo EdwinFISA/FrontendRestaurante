@@ -12,31 +12,34 @@ const Mesero = () => {
     const [mesaSeleccionada, setMesaSeleccionada] = useState(null);
     const [fechaActual, setFechaActual] = useState('');
     const [idUsuario, setIdUsuario] = useState("");
-    const [usuarios, setUsuarios] = useState([]);
+    const [usuario, setUsuario] = useState("");
     const [ordenGenerada, setOrdenGenerada] = useState(false); 
     const [mostrarSeccionOrden, setMostrarSeccionOrden] = useState(true); 
     const [ordenId, setOrdenId] = useState(null);
     
+// Función para obtener datos del usuario desde local storage
+function getUserData() {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+        return JSON.parse(userData); // Devuelve los datos del usuario como objeto
+    }
+    return null; // Si no hay datos, devuelve null
+}
 
-
-    useEffect(() => {
-        obtenerCategorias();
-        obtenerMesas();
-        obtenerFechaActual();
-        const usuario = localStorage.getItem('idUsuario'); 
-        setIdUsuario(usuario);
-        obtenerUsuarios();
-    }, []);
-
-    const obtenerUsuarios = async () => {
-        try {
-            const response = await fetch('http://localhost:3001/obteneruser');
-            const data = await response.json();
-            setUsuarios(data);
-        } catch (error) {
-            console.error('Error al obtener usuarios:', error);
-        }
-    };
+// Cargar ID de usuario al iniciar el componente
+useEffect(() => {
+    const user = getUserData();
+    if (user) {
+        setIdUsuario(user.id_usuario); // Establecer ID de usuario desde local storage
+        setUsuario(user) 
+        console.log('Datos del usuario:', user);
+    } else {
+        console.log('No hay datos del usuario en local storage.');
+    }
+    obtenerCategorias(); 
+    obtenerMesas(); 
+    obtenerFechaActual(); 
+}, []);
 
     const obtenerCategorias = async () => {
         try {
@@ -102,7 +105,7 @@ const Mesero = () => {
             }, []);
         });
     };
-
+    
 
     
     
@@ -195,7 +198,7 @@ const Mesero = () => {
                         title: "<strong>Platillo confirmado!</strong>",
                         html: `<i>${platillo.nombre} ha sido confirmado.</i>`,
                         icon: "success",
-                        timer: 3000,
+                        timer: 1500,
                     });
                 }
             } catch (error) {
@@ -247,7 +250,7 @@ const Mesero = () => {
                     title: "<strong>Platillo eliminado!</strong>",
                     html: `<i>El platillo ha sido eliminado del pedido. Total actualizado: Q${response.data.data.nuevoTotal}</i>`,
                     icon: "success",
-                    timer: 3000,
+                    timer: 1500,
                 });
             }
         } catch (error) {
@@ -289,21 +292,15 @@ const enviarOrden = async (ordenId) => {
     setOrdenGenerada(false); // Oculta el menú de platillos
 };
     
-
+    
     return (
         <div className="nuevo-container">
             {mostrarSeccionOrden && (
                 <div className="header-informacion">
                     <h1 className="titulo-generar-orden">Generar Orden</h1>
                     <div className="info-frame">
-                        <select value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
-                            <option value="">Seleccione un usuario</option>
-                            {usuarios.map((usuario) => (
-                                <option key={usuario.id} value={usuario.id}>{usuario.id_usuario}
-                                </option>
-                            ))}
-                        </select>
-                        <p>Fecha y Hora: {fechaActual}</p>
+                    <p><strong>Usuario logueado:</strong> {usuario ? usuario.username : "No hay usuario logueado"}</p>
+                    <p><strong>Fecha y Hora:</strong> {fechaActual}</p>
                         <div className="mesa-seleccion">
                             <label htmlFor="mesa">Seleccionar Mesa:</label>
                             <select id="mesa" value={mesaSeleccionada} onChange={handleMesaChange}>

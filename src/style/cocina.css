@@ -1,179 +1,102 @@
-/* Contenedor principal de la cocina */
-.cocina-container {
-    background-color: #f8f9fa; /* Fondo claro */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 100vh; /* Ocupar toda la altura de la pantalla */
-    overflow-y: auto; /* Permitir scroll si es necesario */
-    display: flex; /* Permite el uso de flexbox */
-    flex-direction: column; /* Alinea los elementos verticalmente */
+/* Paleta de colores */
+:root {
+    --color-naranja: #f76c47; /* Color naranja */
+    --color-blanco: #fff;
+    --color-gris-claro: #f1f1f1;
 }
 
-/* Tarjeta de orden */
-.orden-card {
+/* Estilos generales de las cards */
+.custom-card {
     border: 1px solid #ddd;
     border-radius: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    background-color: #fff;
+    background-color: var(--color-blanco);
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.orden-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+/* Tabla dentro de las cards */
+.items-scroll {
+    max-height: 200px; /* Ajustado para mostrar correctamente dentro de la card */
+    overflow-y: auto;
 }
 
-.orden-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.1em;
-}
-
-.estado {
-    font-weight: bold;
-}
-
-.bg-success {
-    background-color: #28a745 !important;
-    color: white;
-    padding: 0.3em 0.7em;
-    border-radius: 5px;
-}
-
-.bg-warning {
-    background-color: #ffc107 !important;
-    color: white;
-    padding: 0.3em 0.7em;
-    border-radius: 5px;
-}
-
-.icon-clock {
-    color: #17a2b8; /* Icono de reloj */
-    margin-right: 5px;
-}
-
-/* Tabla de items en la orden */
+/* Hacer la tabla más responsiva */
 .table {
-    margin-bottom: 1em;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
 }
 
-.table th,
-.table td {
-    text-align: left;
-    padding: 8px;
+.table-sm {
+    font-size: 0.9rem;
 }
 
-/* Botones de acción */
-.btn {
-    font-size: 0.9em;
-    padding: 5px 10px;
+/* Encabezados de la tabla fijos */
+.thead-fixed th {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-naranja); /* Color de fondo naranja */
+    color: var(--color-blanco);
+    z-index: 1;
+}
+
+/* Ajustar las celdas de la tabla */
+.table th, .table td {
+    vertical-align: middle;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+/* Estilo de la fila de la tabla al pasar el ratón */
+.table tbody tr:hover {
+    background-color: var(--color-gris-claro);
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 767px) {
+    .card {
+        margin-bottom: 15px; /* Espaciado entre las cards en pantallas pequeñas */
+    }
+
+    .table-sm {
+        font-size: 0.8rem;
+    }
+
+    .table thead th, .table tbody td {
+        font-size: 0.75rem; /* Reducir el tamaño de fuente en dispositivos pequeños */
+    }
+    
+    .items-scroll {
+        max-height: 150px; /* Ajustar la altura de la tabla en pantallas pequeñas */
+    }
+}
+
+/* Estilos del contenedor de la cocina */
+.cocina-container {
+    background-color: #f9f9f9;
+    padding: 2rem 0;
+}
+
+.orden-card {
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: var(--color-naranja);
+    color: var(--color-blanco);
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-naranja);
 }
 
 .btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: white;
-    transition: background-color 0.3s ease;
-}
-
-.btn-success:hover {
-    background-color: #218838;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: white;
-    transition: background-color 0.3s ease;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-/* Estilos para el historial de órdenes */
-.historial-container {
-    margin-top: 20px;
-}
-
-.list-group-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    padding: 10px 15px;
-    background-color: #ffffff;
-    transition: background-color 0.2s ease;
-}
-
-.list-group-item:hover {
-    background-color: #f1f1f1;
-}
-
-.list-group-item strong {
-    color: #343a40;
-}
-
-/* Estilos del modal */
-.modal-content {
-    border-radius: 8px;
-}
-
-.modal-header {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.modal-title {
-    color: #343a40;
-}
-
-.modal-body {
-    font-size: 1em;
-}
-
-/* Footer con botones de navegación */
-.footer-navigation {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px 0;
-}
-
-.footer-btn {
-    color: #6c757d;
-    font-size: 1.5em;
-    transition: color 0.3s ease;
-}
-
-.footer-btn:hover {
-    color: #343a40;
-}
-
-.custom-card {
-    height: 400px; /* Aumenta la altura de la tarjeta */
-    transition: transform 0.2s; /* Agrega una transición suave al pasar el mouse */
-    margin: 10px; /* Añadir margen entre las tarjetas */
-}
-
-.custom-card:hover {
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
-}
-
-/* Asegúrate de que el contenido dentro de la tarjeta sea responsive */
-.orden-card .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Asegura que el contenido ocupe todo el espacio */
-    height: 100%; /* Hace que el cuerpo de la tarjeta ocupe toda la altura */
-}
-
-/* Ajustar altura del contenedor y evitar desbordamiento */
-.row {
-    flex: 1; /* Permite que el row ocupe el espacio restante */
-    overflow-y: auto; /* Agrega scroll interno si es necesario */
+    background-color: var(--color-naranja);
+    border-color: var(--color-naranja);
 }
