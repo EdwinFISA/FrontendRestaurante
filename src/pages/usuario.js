@@ -23,7 +23,7 @@ function Usuario() {
   useEffect(() => {
     const obtenerListaPersonas = async () => {
       try {
-        const response = await fetch('http://localhost:3001/obtenerlistapersonas');
+        const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obtenerlistapersonas');
         const data = await response.json();
         setPersonas(data);
       } catch (error) {
@@ -35,7 +35,7 @@ function Usuario() {
 
   const obtenerPersonasSinUsuario = async () => {
     try {
-      const response = await fetch('http://localhost:3001/obtenerpersona');
+      const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obtenerpersona');
       const data = await response.json();
       setPersonasSinUsuario(data);
     } catch (error) {
@@ -50,7 +50,7 @@ function Usuario() {
   useEffect(() => {
     const obtenerestado = async () => {
       try {
-        const response = await fetch('http://localhost:3001/obtenerestado');
+        const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obtenerestado');
         const data = await response.json();
         setEstados(data);
       } catch (error) {
@@ -63,7 +63,7 @@ function Usuario() {
   useEffect(() => {
     const obtenerrol = async () => {
       try {
-        const response = await fetch('http://localhost:3001/obtenerrol');
+        const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obtenerrol');
         const data = await response.json();
         setRoles(data);
       } catch (error) {
@@ -74,7 +74,7 @@ function Usuario() {
   }, []);
 
   const addUser = () => {
-    Axios.post("http://localhost:3001/create-usuario", {
+    Axios.post("https://backendlogin-production-8d38.up.railway.app/create-usuario", {
       id_persona: idPersona,
       rol_id: idRol,
       estado_id: idEstado,
@@ -102,7 +102,7 @@ function Usuario() {
   };
 
   const updateUser = () => {
-    Axios.put("http://localhost:3001/updateuser", {
+    Axios.put("https://backendlogin-production-8d38.up.railway.app/updateuser", {
       id_usuario: id,
       id_persona: idPersona,
       rol_id: idRol,
@@ -149,7 +149,7 @@ function Usuario() {
   };
 
   const listaUsuarios = () => {
-    Axios.get("http://localhost:3001/obteneruser").then((response) => {
+    Axios.get("https://backendlogin-production-8d38.up.railway.app/obteneruser").then((response) => {
       setusuariolista(response.data);
     });
   };

@@ -23,7 +23,7 @@ function Orden() {
     useEffect(() => {
         const obtenerUsuarios = async () => {
             try {
-                const response = await fetch('http://localhost:3001/obteneruser');
+                const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obteneruser');
                 const data = await response.json();
                 setUsuarios(data);
             } catch (error) {
@@ -37,7 +37,7 @@ function Orden() {
     useEffect(() => {
         const obtenerMesas = async () => {
             try {
-                const response = await fetch('http://localhost:3001/mesas/listar');
+                const response = await fetch('https://backendlogin-production-8d38.up.railway.app/mesas/listar');
                 const data = await response.json();
                 setMesas(data);
             } catch (error) {
@@ -50,7 +50,7 @@ function Orden() {
     // Guardar nueva orden
     const addOrden = async () => {
         try {
-            await Axios.post("http://localhost:3001/orden/guardar", {
+            await Axios.post("https://backendlogin-production-8d38.up.railway.app/orden/guardar", {
                 id_usuario: idUsuario,
                 mesa_id: mesaId,
                 fecha_orden: fechaOrden,
@@ -77,7 +77,7 @@ function Orden() {
     // Actualizar orden
     const updateOrden = async () => {
         try {
-            await Axios.put("http://localhost:3001/orden/actualizar", {
+            await Axios.put("https://backendlogin-production-8d38.up.railway.app/orden/actualizar", {
                 id_orden: idOrden,
                 id_usuario: idUsuario,
                 mesa_id: mesaId,
@@ -125,7 +125,7 @@ function Orden() {
     // Listar todas las ordenes
     const listaOrdenes = async () => {
         try {
-            const response = await Axios.get("http://localhost:3001/orden/listar");
+            const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/orden/listar");
             setOrdenes(response.data);
         } catch (error) {
             console.error("Error al listar ordenes:", error);

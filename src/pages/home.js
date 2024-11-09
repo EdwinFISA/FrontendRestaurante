@@ -1,65 +1,84 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const home = () => {
+const Home = () => {
+  const [estadisticas, setEstadisticas] = useState({
+    totalOrdenesHoy: 0,
+    totalClientesActivos: 0,
+    ultimasOrdenes: []
+  });
+
+  useEffect(() => {
+    // Fetching estadisticas data from the backend
+    const fetchEstadisticas = async () => {
+      try {
+        const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/reporte/estadisticas');
+        setEstadisticas(response.data);
+      } catch (error) {
+        console.error('Error al obtener las estadísticas', error);
+      }
+    };
+    fetchEstadisticas();
+  }, []);
+
   return (
-    <div className="container mt-4">
-      {/* Bienvenida */}
-      <div className="jumbotron p-4 mb-4 bg-light rounded">
-        <h1 className="display-4">¡Bienvenido al Sistema de Gestión del Restaurante!</h1>
-        <p className="lead">
-          Aquí puedes gestionar las órdenes, ver el estado del inventario, y controlar la operación diaria del restaurante.
-        </p>
-        <hr className="my-4" />
-        <p>
-          Utiliza el menú de la izquierda para navegar entre las diferentes secciones del sistema.
-        </p>
-      </div>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">Estadísticas del Restaurante</h1>
 
-      {/* Estadísticas rápidas */}
-      <div className="row text-center">
-        <div className="col-md-4 mb-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Órdenes de hoy</h5>
-              <p className="card-text display-4">120</p>
-              <p className="text-muted">Órdenes procesadas hoy</p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 mb-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Clientes activos</h5>
-              <p className="card-text display-4">45</p>
-              <p className="text-muted">Clientes en el restaurante</p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 mb-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Inventario</h5>
-              <p className="card-text display-4">85%</p>
-              <p className="text-muted">Inventario disponible</p>
-            </div>
-          </div>
-        </div>
+      <div className="row justify-content-center">
+  {/* Total de órdenes hoy */}
+  <div className="col-md-4 d-flex justify-content-center">
+    <div className="card">
+      <div className="card-header text-center">
+        Total de órdenes hoy
       </div>
+      <div className="card-body text-center">
+        <h1 className="card-title">{estadisticas.totalOrdenesHoy}</h1>
+        <p className="card-text">Órdenes pendientes, preparando o entregadas hoy.</p>
+      </div>
+    </div>
+  </div>
 
-      {/* Últimas órdenes */}
-      <div className="card mt-4">
-        <div className="card-header">
-          Últimas órdenes procesadas
+  {/* Total de clientes activos */}
+  <div className="col-md-4 d-flex justify-content-center">
+    <div className="card">
+      <div className="card-header text-center">
+        Total de clientes activos
+      </div>
+      <div className="card-body text-center">
+        <h1 className="card-title">{estadisticas.totalClientesActivos}</h1>
+        <p className="card-text">Clientes activos con NIT.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+      {/* Últimas órdenes procesadas - Se mueve hacia abajo */}
+      <div className="row mt-4">
+        <div className="col-md-12">
+          <div className="card">
+            <div className="card-header">
+              Últimas órdenes procesadas
+            </div>
+            <ul className="list-group list-group-flush">
+              {estadisticas.ultimasOrdenes.length > 0 ? (
+                estadisticas.ultimasOrdenes.map((orden) => (
+                  <li key={orden.id} className="list-group-item">
+                    <strong>Orden #{orden.id}</strong> - 
+                    <span>Mesa {orden.mesa_id}</span> - 
+                    <span>Estado: {orden.estado}</span> - 
+                    <span>Mesero: {orden.mesero}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="list-group-item">No hay órdenes recientes.</li>
+              )}
+            </ul>
+          </div>
         </div>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">Orden #123 - Mesa 5 - Estado: Completada</li>
-          <li className="list-group-item">Orden #124 - Mesa 8 - Estado: En Proceso</li>
-          <li className="list-group-item">Orden #125 - Para llevar - Estado: En preparación</li>
-          <li className="list-group-item">Orden #126 - Mesa 2 - Estado: Completada</li>
-        </ul>
       </div>
     </div>
   );
-  };
+};
 
-export default home;
+export default Home;

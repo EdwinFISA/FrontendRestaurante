@@ -20,7 +20,7 @@ function Empleado() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const add = () => {
-    Axios.post("http://localhost:3001/create", {
+    Axios.post("https://backendlogin-production-8d38.up.railway.app/create", {
       primer_nombre: primerNombre,
       segundo_nombre: segundoNombre,
       primer_apellido: primerApellido,
@@ -40,7 +40,7 @@ function Empleado() {
   };
 
   const update = () => {
-    Axios.put("http://localhost:3001/update", {
+    Axios.put("https://backendlogin-production-8d38.up.railway.app/update", {
       id: id,
       primer_nombre: primerNombre,
       segundo_nombre: segundoNombre,
@@ -79,7 +79,7 @@ function Empleado() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        Axios.delete(`http://localhost:3001/delete/${val.id}`).then(() => {
+        Axios.delete(`https://backendlogin-production-8d38.up.railway.app/delete/${val.id}`).then(() => {
           getPersona();
           limpiarcampos();
           Swal.fire({
@@ -123,10 +123,13 @@ function Empleado() {
     setId(val.id);
   };
 
-  const getPersona = () => {
-    Axios.get("http://localhost:3001/obtenerlistapersonas").then((response) => {
+  const getPersona = async () => {
+    try {
+      const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerlistapersonas");
       setpersona(response.data);
-    });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   useEffect(() => {

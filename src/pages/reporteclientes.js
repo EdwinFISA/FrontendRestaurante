@@ -5,11 +5,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { AllowedAccess } from 'react-permission-role';
-/*import NoPermission from "./NoPermission";*/
 import NoPermission from "../pages/NoPermission.js";
 
-function ReporteEmpleado() {
-    const [empleados, setEmpleados] = useState([]);
+function ReporteCliente() {
+    const [clientes, setClientes] = useState([]);
     const reportRef = useRef(); // Referencia para capturar el contenido del reporte
     
     // Paginación
@@ -20,15 +19,15 @@ function ReporteEmpleado() {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
     useEffect(() => {
-        const fetchEmpleados = async () => {
+        const fetchClientes = async () => {
             try {
-                const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerlistapersonas");
-                setEmpleados(response.data);
+                const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/cliente/listar");
+                setClientes(response.data);
             } catch (error) {
-                console.error("Error fetching employees:", error);
+                console.error("Error fetching clients:", error);
             }
         };
-        fetchEmpleados();
+        fetchClientes();
     }, []);
 
     // Lógica de paginación
@@ -40,7 +39,7 @@ function ReporteEmpleado() {
 
     // Cálculo de paginación
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(empleados.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(clientes.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -53,7 +52,7 @@ function ReporteEmpleado() {
         setSortConfig({ key, direction });
     };
 
-    const sortedItems = [...empleados].sort((a, b) => {
+    const sortedItems = [...clientes].sort((a, b) => {
         let aField = a[sortConfig.key];
         let bField = b[sortConfig.key];
 
@@ -90,43 +89,39 @@ function ReporteEmpleado() {
                 heightLeft -= pageHeight;
             }
 
-            pdf.save("reporte_empleados.pdf");
+            pdf.save("reporte_clientes.pdf");
         });
     };
 
     return (
         <AllowedAccess 
             roles={["admin"]} 
-            permissions="manage-users" /*view-report*/
+            permissions="manage-users" 
             renderAuthFailed={<NoPermission/>}
             isLoading={<p>Cargando...</p>}
         >
             <div className="container">
-                <h1>Informe de Empleados</h1>
+                <h1>Informe de Clientes</h1>
                 <br />
                 <div ref={reportRef}>
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col" onClick={() => handleSort("id")}>Id</th>
-                                <th scope="col" onClick={() => handleSort("primer_nombre")}>Primer Nombre</th>
-                                <th scope="col" onClick={() => handleSort("segundo_nombre")}>Segundo Nombre</th>
-                                <th scope="col" onClick={() => handleSort("primer_apellido")}>Primer Apellido</th>
-                                <th scope="col" onClick={() => handleSort("segundo_apellido")}>Segundo Apellido</th>
-                                <th scope="col" onClick={() => handleSort("telefono")}>Teléfono</th>
-                                <th scope="col" onClick={() => handleSort("email")}>Email</th>
+                                <th scope="col" onClick={() => handleSort("id")}>ID</th>
+                                <th scope="col" onClick={() => handleSort("nit_cliente")}>NIT Cliente</th>
+                                <th scope="col" onClick={() => handleSort("nombre")}>Nombre</th>
+                                <th scope="col" onClick={() => handleSort("apellido")}>Apellido</th>
+                                <th scope="col" onClick={() => handleSort("direccion")}>Dirección</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {currentSortedItems.map((empleado) => (
-                                <tr key={empleado.id}>
-                                    <th>{empleado.id}</th>
-                                    <td>{empleado.primer_nombre}</td>
-                                    <td>{empleado.segundo_nombre}</td>
-                                    <td>{empleado.primer_apellido}</td>
-                                    <td>{empleado.segundo_apellido}</td>
-                                    <td>{empleado.telefono}</td>
-                                    <td>{empleado.email}</td>
+                            {currentSortedItems.map((cliente) => (
+                                <tr key={cliente.id}>
+                                    <th>{cliente.id}</th>
+                                    <td>{cliente.nit_cliente}</td>
+                                    <td>{cliente.nombre}</td>
+                                    <td>{cliente.apellido}</td>
+                                    <td>{cliente.direccion}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -157,4 +152,4 @@ function ReporteEmpleado() {
     );
 }
 
-export default ReporteEmpleado;
+export default ReporteCliente;

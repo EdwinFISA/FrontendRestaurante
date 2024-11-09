@@ -14,7 +14,7 @@ const Cocina = () => {
     useEffect(() => {
         const fetchOrdenes = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/orden/ordenes-preparando");
+                const response = await axios.get("https://backendlogin-production-8d38.up.railway.app/orden/ordenes-preparando");
                 setOrdenes(response.data.ordenes);
             } catch (error) {
                 console.error("Error al cargar órdenes:", error);
@@ -30,8 +30,15 @@ const Cocina = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-    const marcarComoListo = (id) => {
-        setOrdenes(ordenes.filter(orden => orden.ordenId !== id));
+    const marcarComoListo = async (ordenId) => {
+        try {
+            const response = await axios.post(`https://backendlogin-production-8d38.up.railway.app/orden/responder-orden/${ordenId}`);
+            if (response.data.success) {
+                setOrdenes(ordenes.filter(orden => orden.ordenId !== ordenId));
+            }
+        } catch (error) {
+            console.error("Error al marcar la orden como lista:", error);
+        }
     };
 
     const handleClose = () => {

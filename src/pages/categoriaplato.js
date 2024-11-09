@@ -15,9 +15,11 @@ function Categoriaplato() {
     const itemsPerPage = 3;
     const [searchTerm, setSearchTerm] = useState("");
 
+
+
     const guardar = async () => {
         try {
-            await Axios.post("http://localhost:3001/categoria/guardar", { nombre });
+            await Axios.post('https://backendlogin-production-8d38.up.railway.app/guardar', { nombre });
             listarCategorias();
             limpiarCampos();
             Swal.fire({
@@ -38,7 +40,7 @@ function Categoriaplato() {
 
     const actualizar = async () => {
         try {
-            await Axios.put("http://localhost:3001/categoria/actualizar", { id, nombre });
+            await Axios.put("https://backendlogin-production-8d38.up.railway.app/categoria/actualizar", { id, nombre });
             listarCategorias();
             limpiarCampos();
             Swal.fire({
@@ -71,7 +73,7 @@ function Categoriaplato() {
 
         if (result.isConfirmed) {
             try {
-                await Axios.delete(`http://localhost:3001/categoria/eliminar/${val.id}`);
+                await Axios.delete(`https://backendlogin-production-8d38.up.railway.app/categoria/eliminar/${val.id}`);
                 listarCategorias();
                 limpiarCampos();
                 Swal.fire({
@@ -106,7 +108,7 @@ function Categoriaplato() {
 
     const listarCategorias = async () => {
         try {
-            const response = await Axios.get("http://localhost:3001/categoria/listar");
+            const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/categoria/listar");
             setCategoriasList(response.data);
         } catch (error) {
             console.error('Error al listar categorías:', error);

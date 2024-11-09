@@ -8,6 +8,9 @@ const Sidebar = () => {
     const [showRegistros, setShowRegistros] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [showCocina, setShowCocina] = useState(false);
+    const [showMesero, setShowMesero] =useState(false);
+    const [showClientes, setShowClientes] =useState(false);
+    const [showReportes, setShowReportes] =useState(false);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -23,6 +26,12 @@ const Sidebar = () => {
         setShowCocina(false);
     };
 
+    const toggleClientes = () => {
+        setShowClientes(!showClientes);
+        setShowRegistros(false);
+        setShowMenu(false);
+    };
+
     const toggleMenu = () => {
         setShowMenu(!showMenu);
         setShowRegistros(false);
@@ -34,6 +43,19 @@ const Sidebar = () => {
         setShowRegistros(false);
         setShowMenu(false);
     };
+
+    const toggleMesero = () => {
+        setShowMesero(!showMesero);
+        setShowRegistros(false);
+        setShowMenu(false);
+    };
+
+    const toggleReportes = () => {
+        setShowReportes(!showReportes);
+        setShowRegistros(false);
+        setShowMenu(false);
+    };
+
 
     return (
         <>
@@ -61,7 +83,7 @@ const Sidebar = () => {
                     </li>
                     
 
-                    {/* Usuarios Module */}
+                    {/* Modulo Usuarios*/}
                     <li className="nav-item mb-2">
                         <button
                             className="btn btn-link nav-link text-white d-flex align-items-center"
@@ -102,7 +124,36 @@ const Sidebar = () => {
                         )}
                     </li>
 
-                    {/* Menu Module */}
+                    {/* Modulo Clientes*/}
+                    <li className="nav-item mb-2">
+                        <button
+                            className="btn btn-link nav-link text-white d-flex align-items-center"
+                            onClick={toggleClientes}
+                        >
+                            <i class='bx bxs-user-detail'></i>
+                            <span className="me-3">Clientes</span>
+                            <i className={`bi ms-auto ${showClientes ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
+                        </button>
+
+                        {showClientes && (
+                            <ul className="nav flex-column ms-3">
+                                <li className="nav-item mb-2">
+                                    <Link to="/clientes" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-person-fill me-2"></i>
+                                        <span>Clientes</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item mb-2">
+                                    <Link to="/reporteclientes" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-person-badge-fill me-2"></i>
+                                        <span>Reporte Clientes</span>
+                                    </Link>
+                                </li>
+                            </ul>
+                        )}
+                    </li>
+
+                    {/* Modulo Menu */}
                     <li className="nav-item mb-2">
                         <button
                             className="btn btn-link nav-link text-white d-flex align-items-center"
@@ -169,6 +220,23 @@ const Sidebar = () => {
                                         <span>Órdenes Activas</span>
                                     </Link>
                                 </li>
+                             
+                            </ul>
+                        )}
+                    </li>
+                    {/* Modulo Reportes */}
+                    <li className="nav-item mb-2">
+                        <button
+                            className="btn btn-link nav-link text-white d-flex align-items-center"
+                            onClick={toggleReportes}
+                        >
+                        <i class='bx bxs-report'></i>
+                            <span className="me-3">Reportes</span>
+                            <i className={`bi ms-auto ${showReportes ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
+                        </button>
+
+                        {showReportes && (
+                            <ul className="nav flex-column ms-3">
                                 <li className="nav-item mb-2">
                                     <Link to="/Historial" className="nav-link text-white d-flex align-items-center" onClick={closeSidebar}>
                                         <i className="bi bi-archive me-2"></i>

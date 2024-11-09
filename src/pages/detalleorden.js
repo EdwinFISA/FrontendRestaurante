@@ -23,7 +23,7 @@ function DetalleOrden() {
 
     const obtenerDetallesOrden = async () => {
         try {
-            const response = await fetch('http://localhost:3001/detalle_orden/listar');
+            const response = await fetch('https://backendlogin-production-8d38.up.railway.app/detalle_orden/listar');
             const data = await response.json();
             setDetalleOrdenLista(data);
         } catch (error) {
@@ -33,7 +33,7 @@ function DetalleOrden() {
 
     const obtenerOrdenes = async () => {
         try {
-            const response = await fetch('http://localhost:3001/orden/listar');
+            const response = await fetch('https://backendlogin-production-8d38.up.railway.app/orden/listar');
             const data = await response.json();
             setOrdenes(data);
         } catch (error) {
@@ -43,7 +43,7 @@ function DetalleOrden() {
 
     const obtenerPlatillos = async () => {
         try {
-            const response = await fetch('http://localhost:3001/platillos/listar');
+            const response = await fetch('https://backendlogin-production-8d38.up.railway.app/platillos/listar');
             const data = await response.json();
             setPlatillos(data);
         } catch (error) {
@@ -53,7 +53,7 @@ function DetalleOrden() {
 
     const agregarDetalleOrden = async () => {
         try {
-            await Axios.post("http://localhost:3001/detalle_orden/guardar", {
+            await Axios.post("https://backendlogin-production-8d38.up.railway.app/detalle_orden/guardar", {
                 orden_id: ordenId,
                 platillo_id: platilloId,
                 cantidad: cantidad,
@@ -79,7 +79,7 @@ function DetalleOrden() {
 
     const actualizarDetalleOrden = async () => {
         try {
-            await Axios.put("http://localhost:3001/detalle_orden/actualizar", {
+            await Axios.put("https://backendlogin-production-8d38.up.railway.app/detalle_orden/actualizar", {
                 orden_id: ordenId,
                 platillo_id: platilloId,
                 cantidad: cantidad,
@@ -104,7 +104,7 @@ function DetalleOrden() {
 
     const eliminarDetalleOrden = async (id) => {
         try {
-            await Axios.delete(`http://localhost:3001/detalle_orden/eliminar/${id}`);
+            await Axios.delete(`https://backendlogin-production-8d38.up.railway.app/detalle_orden/eliminar/${id}`);
             await obtenerDetallesOrden();
             Swal.fire({
                 title: "Eliminación exitosa",

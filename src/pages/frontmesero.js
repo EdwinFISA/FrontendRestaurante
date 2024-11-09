@@ -43,7 +43,7 @@ useEffect(() => {
 
     const obtenerCategorias = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/categoria/listar');
+            const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/categoria/listar');
             setCategorias(response.data);
         } catch (error) {
             console.error('Error al obtener categorías', error);
@@ -52,7 +52,7 @@ useEffect(() => {
 
     const obtenerMesas = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/mesas/listar');
+            const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/mesas/listar');
             setMesas(response.data);
         } catch (error) {
             console.error('Error al obtener mesas', error);
@@ -72,7 +72,7 @@ useEffect(() => {
 
     const obtenerPlatillos = async (categoriaId) => {
         try {
-            const response = await axios.get('http://localhost:3001/platillos/listar');
+            const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/platillos/listar');
             const platillosFiltrados = response.data.filter(platillo => platillo.categoria_id === categoriaId);
             setPlatillos(platillosFiltrados);
         } catch (error) {
@@ -118,7 +118,7 @@ useEffect(() => {
         const total = pedido.reduce((total, item) => total + parseFloat(item.precio) * item.cantidad, 0).toFixed(2);
         
         try {
-            const response = await axios.post("http://localhost:3001/orden/guardar", {
+            const response = await axios.post("https://backendlogin-production-8d38.up.railway.app/orden/guardar", {
                 id_usuario: idUsuario,
                 mesa_id: mesaSeleccionada,
                 fecha_orden: fechaActual,
@@ -179,7 +179,7 @@ useEffect(() => {
         if (platillo) {
             try {
                 // Hacer la solicitud para guardar el detalle de la orden
-                const response = await axios.post("http://localhost:3001/detalle_orden/guardar", {
+                const response = await axios.post("https://backendlogin-production-8d38.up.railway.app/detalle_orden/guardar", {
                     orden_id: ordenId,
                     platillo_id: platilloId,
                     cantidad: platillo.cantidad,
@@ -240,7 +240,7 @@ useEffect(() => {
         }
     
         try {
-            const response = await axios.delete(`http://localhost:3001/detalle_orden/eliminar/${ordenId}/${platilloId}`, {
+            const response = await axios.delete(`https://backendlogin-production-8d38.up.railway.app/detalle_orden/eliminar/${ordenId}/${platilloId}`, {
                 params: { orden_id: ordenId }
             });
     
@@ -266,7 +266,7 @@ useEffect(() => {
 // Función para enviar la orden al backend y cambiar el estado a "preparando"
 const enviarOrden = async (ordenId) => {
     try {
-        const response = await axios.post(`http://localhost:3001/orden/enviar-orden/${ordenId}`); 
+        const response = await axios.post(`https://backendlogin-production-8d38.up.railway.app/orden/enviar-orden/${ordenId}`); 
 
         if (response.status === 200 && response.data.success) {
             Swal.fire({
