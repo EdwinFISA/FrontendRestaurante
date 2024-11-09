@@ -1,107 +1,119 @@
-/* Paleta de colores */
-:root {
-  --color-naranja: #FF7B00; /* Naranja */
-  --color-blanco: #fff;
-  --color-gris-claro: #f1f1f1;
+.historial-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Estilos generales de las cards */
-.custom-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: var(--color-blanco);
-  padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.header {
   display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* Hacer la tabla más responsiva */
-.items-scroll {
-  max-height: 200px; /* Ajustado para mostrar correctamente dentro de la card */
-  overflow-y: auto;
-}
-
-/* Encabezados de la tabla fijos */
-.thead-fixed th {
-  position: sticky;
-  top: 0;
-  background-color: var(--color-naranja); /* Naranja */
-  color: var(--color-blanco);
-  z-index: 1;
-}
-
-/* Ajustar las celdas de la tabla */
-.table th, .table td {
-  vertical-align: middle;
-  padding: 0.5rem;
-  text-align: center;
-}
-
-/* Estilo de la fila de la tabla al pasar el ratón */
-.table tbody tr:hover {
-  background-color: var(--color-gris-claro);
-}
-
-/* Responsividad para pantallas pequeñas */
-@media (max-width: 767px) {
-  .card {
-      margin-bottom: 15px; /* Espaciado entre las cards en pantallas pequeñas */
-  }
-
-  .table-sm {
-      font-size: 0.8rem;
-  }
-
-  .table thead th, .table tbody td {
-      font-size: 0.75rem; /* Reducir el tamaño de fuente en dispositivos pequeños */
-  }
-  
-  .items-scroll {
-      max-height: 150px; /* Ajustar la altura de la tabla en pantallas pequeñas */
-  }
-}
-
-/* Estilos del contenedor de la cocina */
-.cocina-container {
-  background-color: #f9f9f9;
-  padding: 2rem 0;
-}
-
-.orden-card {
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.card-header {
-  background-color: var(--color-naranja);
-  color: var(--color-blanco);
+.search-bar {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 200px;
 }
 
-.card-body {
-  padding: 1rem;
+.date-picker {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
-.card-number {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--color-naranja);
-}
-
-.card-footer {
-  margin-top: auto; /* Fuerza que el botón se quede al final de la tarjeta */
-  padding: 1rem;
-}
-
-.btn-mark-as-done {
-  background-color: var(--color-naranja);
-  border-color: var(--color-naranja);
+.order-list table {
   width: 100%;
-  font-weight: bold;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-/* Estilos adicionales para el botón */
-.btn-mark-as-done:hover {
-  background-color: #e06a00;
-  border-color: #e06a00;
+.order-list th,
+.order-list td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
 }
+
+.order-list th {
+  background-color: #f5f5f5;
+}
+
+.details-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background-color: #357abd;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.generate-invoice-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.generate-invoice-button:hover {
+  background-color: #45a049;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px; }

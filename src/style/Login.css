@@ -64,17 +64,23 @@ body {
     background-color: #fdfdfd;
 }
 
-/* Cabecera y logo con animación */
-.login-header {
+/* Contenedor de los logos */
+.logos-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra los logos horizontalmente */
+    gap: 10px; /* Ajusta el espacio entre los logos */
     margin-bottom: 20px;
     animation: fadeIn 1.5s ease;
 }
 
-.login-logo {
-    width: 100px;
+/* Estilos para ambos logos */
+.login-logo,
+.new-logo {
+    width: 80px; /* Tamaño uniforme para ambos logos */
     height: auto;
-    margin-bottom: 10px;
-    animation: bounce 2s infinite;
+    text-align: center;
+    animation: bounce 2s infinite; /* Animación compartida */
 }
 
 @keyframes bounce {
@@ -126,9 +132,7 @@ body {
     padding: 12px;
     border-radius: 6px;
     border: 1px solid #ddd;
-    /*width: 100%; /* Ajusta al 100% del contenedor */
-    width: 370px;
-    height: 50;
+    width: 370px; /* Ajusta el ancho del input */
     font-size: 15px;
     transition: border-color 0.3s;
     box-sizing: border-box;

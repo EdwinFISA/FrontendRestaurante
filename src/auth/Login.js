@@ -8,6 +8,7 @@ import { usePermission } from 'react-permission-role';
 import '../style/Login.css'; 
 import imgLogo from '../asset/img/miralago.jpg'; 
 import imgFood from '../asset/img/food-image.jpg'; 
+import newLogo from '../asset/img/mariano.png'; // Importa el nuevo logo aquí
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -31,7 +32,6 @@ function Login() {
                         permissions: res.data.user.permissions || []
                     });
                     console.log("Roles:", res.data.user.roles);
-                    
                     console.log("Permissions:", res.data.user.permissions);
 
                     console.log('Navigating to /home');
@@ -53,7 +53,10 @@ function Login() {
                 </div>
                 <div className="login-box">
                     <div className="login-header">
-                        <img src={imgLogo} alt="Logo" className="login-logo" />
+                        <div className="logos-container">
+                            <img src={imgLogo} alt="Logo Restaurante" className="login-logo" />
+                            <img src={newLogo} alt="Nuevo Logo" className="new-logo" /> {/* Segundo logo */}
+                        </div>
                         <h2 className="login-title">MIRALAGO</h2>
                         <p className="login-welcome">
                             Hoy es un nuevo día. Es tu día. Tú le das sabor.
@@ -74,7 +77,7 @@ function Login() {
                             <label htmlFor="password" className="form-label">Contraseña</label>
                             <input
                                 type="password"
-                                placeholder="Minimo 8 caracteres"
+                                placeholder="Mínimo 8 caracteres"
                                 className="form-control input-custom"
                                 onChange={e => setPassword(e.target.value)}
                             />

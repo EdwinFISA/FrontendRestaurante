@@ -231,3 +231,113 @@
 .delete-btn:hover {
     background-color: #740e0e; /* Rojo oscuro al pasar el mouse */
 }
+
+/* nuevo-empleado.css */
+
+/* Ajustes generales para pantallas pequeñas */
+@media (max-width: 600px) {
+    .nuevo-container {
+        max-width: 100%;
+        padding: 15px;
+        box-shadow: none;
+        text-align: center;
+    }
+
+    /* Alineación de botones de categorías en columna centrada */
+    .nueva-categoria-btn {
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 14px;
+        margin: 5px 0;
+    }
+
+    /* Reorganización del contenedor de platillos y centrado */
+    .nuevo-platillo {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    /* Resumen del pedido más compacto y centrado */
+    .nuevo-resumen {
+        padding: 8px;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .nuevo-total {
+        font-size: 1em;
+        margin-top: 10px;
+    }
+
+    /* Botón de finalizar centrado y ancho completo */
+    .nuevo-finalizar-btn,
+    .nuevo-agregar-btn,
+    .continuar-btn,
+    .cantidad-control .menos-btn,
+    .cantidad-control .mas-btn {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+        margin-top: 8px;
+    }
+
+    /* Ajustes de cantidad control centrados */
+    .cantidad-control {
+        width: 100%;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .cantidad-control span {
+        font-size: 1em;
+    }
+
+    /* Ventana flotante centrada con ajuste de ancho */
+    .nueva-ventana-flotante {
+        padding: 15px;
+    }
+
+    .nueva-ventana-contenido {
+        width: 90%;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    /* Frame de información ajustado y centrado */
+    .info-frame {
+        padding: 15px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    /* Ancho total para select y button en pantallas pequeñas */
+    .info-frame select,
+    .info-frame button {
+        width: 100%;
+        max-width: none;
+        font-size: 14px;
+    }
+
+    .titulo-generar-orden {
+        font-size: 20px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    /* Reorganización del resumen de platillo centrado */
+    .resumen-platillo {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    /* Botones de check y delete alineados y centrados */
+    .check-btn,
+    .delete-btn {
+        width: 100%;
+        font-size: 14px;
+        margin: 5px auto;
+    }
+}
