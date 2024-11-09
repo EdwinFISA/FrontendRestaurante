@@ -8,7 +8,7 @@ import { usePermission } from 'react-permission-role';
 import '../style/Login.css'; 
 import imgLogo from '../asset/img/miralago.jpg'; 
 import imgFood from '../asset/img/food-image.jpg'; 
-import newLogo from '../asset/img/mariano.png'; // Importa el nuevo logo aquí
+
 
 const API_URL = 'https://backendlogin-production-8d38.up.railway.app';
 
@@ -57,7 +57,6 @@ function Login() {
                     <div className="login-header">
                         <div className="logos-container">
                             <img src={imgLogo} alt="Logo Restaurante" className="login-logo" />
-                            <img src={newLogo} alt="Nuevo Logo" className="new-logo" /> {/* Segundo logo */}
                         </div>
                         <h2 className="login-title">MIRALAGO</h2>
                         <p className="login-welcome">
