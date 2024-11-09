@@ -21,7 +21,7 @@ import ReportePlato from  "../pages/reporteplato";
 import Frontmesero from "../pages/frontmesero"
 import Error404 from '../pages/Error404';
 import Cocina from "../pages/Cocina";
-import Historial from "../pages/Historial";
+import Factura from "../pages/Factura";
 import OrdenesListas from "../pages/ordeneslistas";
 import Clientes from "../pages/clientes";
 import Reporteclientes from "../pages/reporteclientes";
@@ -77,7 +77,7 @@ const AppRoutes = () => {
         <Route path="reporteplato" element={<ReportePlato />} />
         <Route path="frontmesero" element={<Frontmesero />} />
         <Route path="Cocina" element={<Cocina />} />
-        <Route path="Historial" element={<Historial />} />
+        <Route path="Factura" element={<Factura />} />
         <Route path="ordeneslistas" element={<OrdenesListas />} />
         <Route path="ventasdiarias" element={<Ventasdiarias />} />
         <Route path="repventasplatillo" element={<ReporteVentasPorPlatillo />} />

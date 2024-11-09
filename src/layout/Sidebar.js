@@ -223,6 +223,12 @@ const Sidebar = () => {
                                         <span>Ordenes Listas</span>
                                     </Link>
                                 </li>
+                                <li className="nav-item mb-2">
+                                    <Link to="/Factura" className="nav-link text-white d-flex align-items-center">
+                                        <i className="bi bi-archive me-2"></i>
+                                        <span>Generar factura</span>
+                                    </Link>
+                                </li>
                             </ul>
                         )}
                         </li>
@@ -245,12 +251,7 @@ const Sidebar = () => {
                                         <span>Órdenes Activas</span>
                                     </Link>
                                 </li>
-                                <li className="nav-item mb-2">
-                                    <Link to="/Historial" className="nav-link text-white d-flex align-items-center">
-                                        <i className="bi bi-archive me-2"></i>
-                                        <span>Historial de Órdenes</span>
-                                    </Link>
-                                </li>
+                             
                             </ul>
                         )}
                     </li>

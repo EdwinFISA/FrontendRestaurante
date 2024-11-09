@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Axios from "axios";
 import '../style/Historial.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -43,6 +44,48 @@ const Historial = () => {
   const [filteredClients, setFilteredClients] = useState(clients);
   const [showClientSearch, setShowClientSearch] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
+  const [idUsuario, setIdUsuario] = useState("");
+  const [usuario, setUsuario] = useState("");
+  const [ordenes, setOrdenes] = useState([]);
+  /*const [ordenId, setOrdenId] = useState("");
+  const [fecha, setFechaEntregado] = useState("");
+  const [mesaId, setMesaId] = useState("");
+  const [mesero, setMesero] = useState("");
+  const [detalleId, setDetalleId]= useState("");
+  const [platillos, setPlatillosID] = useState("");*/
+
+  function getUserData() {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+        return JSON.parse(userData); // Devuelve los datos del usuario como objeto
+    }
+    return null; // Si no hay datos, devuelve null
+  }
+  // Cargar ID de usuario al iniciar el componente
+useEffect(() => {
+  const user = getUserData();
+  if (user) {
+      setIdUsuario(user.id_usuario); // Establecer ID de usuario desde local storage
+      setUsuario(user) 
+      console.log('Datos del usuario:', user);
+  } else {
+      console.log('No hay datos del usuario en local storage.');
+  }
+ // obtenerCategorias(); 
+  //obtenerMesas(); 
+  //obtenerFechaActual(); 
+}, []);
+
+const getOrdenEntregados = () => {
+  Axios.get("http://localhost:3001/orden/ordenes-entregados/3").then((response) => {
+    setOrdenes(response.data);
+  });
+};
+
+useEffect(() => {
+  getOrdenEntregados();
+}, []);
+
 
   const openModal = (order) => {
     setSelectedOrder(order);
@@ -142,8 +185,10 @@ const Historial = () => {
   };
 
   return (
+    
     <div className="historial-container">
-      <h1>Historial de Órdenes</h1>
+      <p> <p><strong>Usuario logueado:</strong> {usuario ? usuario.username : "No hay usuario logueado"}</p></p>
+      <h1>Generar factura de las ordenes entregadas</h1>
       <div className="header">
         <input type="text" placeholder="Buscar órdenes..." className="search-bar" />
         <DatePicker
@@ -154,36 +199,36 @@ const Historial = () => {
         />
       </div>
       <div className="order-list">
-        <table>
-          <thead>
-            <tr>
-              <th>Mesa</th>
-              <th>Mesero</th>
-              <th>Items</th>
-              <th>Fecha Completada</th>
-              <th>Detalles</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr key={index}>
-                <td>{order.mesa}</td>
-                <td>{order.mesero}</td>
-                <td>
-                  {order.items.map((item, i) => (
-                    <div key={i}>{item}</div>
-                  ))}
-                </td>
-                <td>{order.fechaCompletada}</td>
-                <td>
-                  <button onClick={() => openModal(order)} className="details-button">
-                    Ver Detalles
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <table>
+                <thead>
+                    <tr>
+                        <th>Mesa</th>
+                        <th>Mesero</th>
+                        <th>Items</th>
+                        <th>Fecha Completada</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {ordenes.map((order, index) => (
+                        <tr key={index}>
+                            <td>{order.mesaId}</td> {/* Asegúrate de usar el nombre correcto */}
+                            <td>{order.nombreMesero}</td> {/* Asegúrate de usar el nombre correcto */}
+                            <td>
+                                {order.items.map((item, i) => (
+                                    <div key={i}>{item.nombre} (Cantidad: {item.cantidad})</div> 
+                                ))}
+                            </td>
+                            <td>{new Date(order.fechaOrden).toLocaleDateString()}</td> {/* Formato de fecha */}
+                            <td>
+                                <button onClick={() => openModal(order)} className="details-button">
+                                    Ver Detalles
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
       </div>
 
       {isModalOpen && (
