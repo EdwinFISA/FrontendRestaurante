@@ -21,7 +21,7 @@ function ReporteCliente() {
     useEffect(() => {
         const fetchClientes = async () => {
             try {
-                const response = await Axios.get("http://localhost:3001/cliente/listar");
+                const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/cliente/listar");
                 setClientes(response.data);
             } catch (error) {
                 console.error("Error fetching clients:", error);

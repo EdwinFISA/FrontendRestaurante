@@ -22,7 +22,7 @@ function ReporteEmpleado() {
     useEffect(() => {
         const fetchEmpleados = async () => {
             try {
-                const response = await Axios.get("http://localhost:3001/obtenerlistapersonas");
+                const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerlistapersonas");
                 setEmpleados(response.data);
             } catch (error) {
                 console.error("Error fetching employees:", error);
