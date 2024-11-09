@@ -22,11 +22,11 @@ function ReporteUser() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const personasResponse = await Axios.get("http://localhost:3001/obtenerlistapersonas");
+                const personasResponse = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerlistapersonas");
                 setPersonas(personasResponse.data);
-                const rolesResponse = await Axios.get("http://localhost:3001/obtenerrol");
+                const rolesResponse = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerrol");
                 setRoles(rolesResponse.data);
-                const estadosResponse = await Axios.get("http://localhost:3001/obtenerestado");
+                const estadosResponse = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerestado");
                 setEstados(estadosResponse.data);
                 getUsuario();
             } catch (error) {
@@ -40,7 +40,7 @@ function ReporteUser() {
 
     const getUsuario = async () => {
         try {
-            const response = await Axios.get("http://localhost:3001/obteneruser");
+            const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obteneruser");
             setusuariolista(response.data);
         } catch (error) {
             console.error("Error fetching users:", error);

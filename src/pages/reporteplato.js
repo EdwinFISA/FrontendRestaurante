@@ -21,9 +21,9 @@ function ReportePlatos() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const platosResponse = await Axios.get("http://localhost:3001/platillos/listar");
+                const platosResponse = await Axios.get("https://backendlogin-production-8d38.up.railway.app/platillos/listar");
                 setPlatos(platosResponse.data);
-                const categoriasResponse = await Axios.get("http://localhost:3001/categoria/listar");
+                const categoriasResponse = await Axios.get("https://backendlogin-production-8d38.up.railway.app/categoria/listar");
                 setCategorias(categoriasResponse.data);
             } catch (error) {
                 setError("Error al cargar los datos");
