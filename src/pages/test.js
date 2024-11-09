@@ -27,7 +27,7 @@ const Mesero = () => {
 
     const obtenerUsuarios = async () => {
         try {
-            const response = await fetch('http://localhost:3001/obteneruser');
+            const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obteneruser');
             const data = await response.json();
             setUsuarios(data);
         } catch (error) {
@@ -38,7 +38,7 @@ const Mesero = () => {
     
     const obtenerCategorias = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/categoria/listar');
+            const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/categoria/listar');
             setCategorias(response.data);
         } catch (error) {
             console.error('Error al obtener categorías', error);
@@ -47,7 +47,7 @@ const Mesero = () => {
 
     const obtenerMesas = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/mesas/listar');
+            const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/mesas/listar');
             setMesas(response.data);
         } catch (error) {
             console.error('Error al obtener mesas', error);
@@ -67,7 +67,7 @@ const Mesero = () => {
 
     const obtenerPlatillos = async (categoriaId) => {
         try {
-            const response = await axios.get('http://localhost:3001/platillos/listar');
+            const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/platillos/listar');
             const platillosFiltrados = response.data.filter(platillo => platillo.categoria_id === categoriaId);
             setPlatillos(platillosFiltrados);
         } catch (error) {
@@ -109,7 +109,7 @@ const Mesero = () => {
     const addOrden = async () => {
         const total = pedido.reduce((total, item) => total + parseFloat(item.precio) * item.cantidad, 0).toFixed(2);
         try {
-            await axios.post("http://localhost:3001/orden/guardar", {
+            await axios.post("https://backendlogin-production-8d38.up.railway.app/orden/guardar", {
                 id_usuario: idUsuario,
                 mesa_id: mesaSeleccionada, // Cambié mesaId por mesaSeleccionada
                 fecha_orden: fechaActual, // Cambié fechaOrden por fechaActual

@@ -18,7 +18,7 @@ function Cliente() {
     const [searchTerm, setSearchTerm] = useState(""); 
 
     const addCliente = () => { 
-        Axios.post("http://localhost:3001/cliente/guardar", { 
+        Axios.post("https://backendlogin-production-8d38.up.railway.app/cliente/guardar", { 
             nit_cliente: nitCliente, 
             nombre: nombre, 
             apellido: apellido, 
@@ -34,7 +34,7 @@ function Cliente() {
     }; 
 
     const updateCliente = () => { 
-        Axios.put("http://localhost:3001/cliente/actualizar", { 
+        Axios.put("https://backendlogin-production-8d38.up.railway.app/cliente/actualizar", { 
             id: id, 
             nit_cliente: nitCliente, 
             nombre: nombre, 
@@ -59,7 +59,7 @@ function Cliente() {
         setEditarCliente(true); setNitCliente(val.nit_cliente); setNombre(val.nombre); setApellido(val.apellido); setDireccion(val.direccion); setId(val.id); 
     }; 
 
-    const getClientes = () => { Axios.get("http://localhost:3001/cliente/listar").then((response) => { setClienteList(response.data); }); }; 
+    const getClientes = () => { Axios.get("https://backendlogin-production-8d38.up.railway.app/cliente/listar").then((response) => { setClienteList(response.data); }); }; 
 
     useEffect(() => { getClientes(); }, []); 
 

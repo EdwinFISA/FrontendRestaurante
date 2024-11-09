@@ -19,7 +19,7 @@ function ReporteVentasDiarias() {
     useEffect(() => {
         const fetchVentas = async (startDate = null, endDate = null) => {
             try {
-                const response = await Axios.get("http://localhost:3001/reporte/ventas-diarias", {
+                const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/reporte/ventas-diarias", {
                     params: {
                         startDate: startDate ? startDate.toISOString().slice(0, 10) : undefined,
                         endDate: endDate ? endDate.toISOString().slice(0, 10) : undefined,

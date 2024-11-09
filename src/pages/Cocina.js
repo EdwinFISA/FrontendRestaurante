@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
+import { AllowedAccess } from 'react-permission-role';
+import NoPermission from "./NoPermission";
 
 const Cocina = () => {
     const [ordenes, setOrdenes] = useState([]);
@@ -14,7 +16,7 @@ const Cocina = () => {
     useEffect(() => {
         const fetchOrdenes = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/orden/ordenes-preparando");
+                const response = await axios.get("https://backendlogin-production-8d38.up.railway.app/orden/ordenes-preparando");
                 setOrdenes(response.data.ordenes);
             } catch (error) {
                 console.error("Error al cargar órdenes:", error);
@@ -32,7 +34,7 @@ const Cocina = () => {
 
     const marcarComoListo = async (ordenId) => {
         try {
-            const response = await axios.post(`http://localhost:3001/orden/responder-orden/${ordenId}`);
+            const response = await axios.post(`https://backendlogin-production-8d38.up.railway.app/orden/responder-orden/${ordenId}`);
             if (response.data.success) {
                 setOrdenes(ordenes.filter(orden => orden.ordenId !== ordenId));
             }
@@ -47,6 +49,12 @@ const Cocina = () => {
     };
 
     return (
+        <AllowedAccess 
+        roles={["cocina"]} 
+        permissions="manage-users" 
+        renderAuthFailed={<NoPermission/>}
+        isLoading={<p>Cargando...</p>}
+      >
         <div className="container-fluid cocina-container">
             <div className="row">
                 <div className="col-md-12">
@@ -121,6 +129,7 @@ const Cocina = () => {
                 </Modal.Footer>
             </Modal>
         </div>
+        </AllowedAccess>
     );
 };
 

@@ -21,7 +21,7 @@ function Platillos() {
     useEffect(() => {
         const obtenerCategorias = async () => {
             try {
-                const response = await fetch('http://localhost:3001/categoria/listar');
+                const response = await fetch('https://backendlogin-production-8d38.up.railway.app/categoria/listar');
                 const data = await response.json();
                 setCategorias(data);
             } catch (error) {
@@ -34,7 +34,7 @@ function Platillos() {
     // Obtener lista de platillos
     const listarPlatillos = async () => {
         try {
-            const response = await Axios.get("http://localhost:3001/platillos/listar");
+            const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/platillos/listar");
             setListaPlatillosState(response.data); // Cambié el nombre para evitar conflictos
         } catch (error) {
             console.error('Error al listar platillos:', error);
@@ -54,7 +54,7 @@ function Platillos() {
                 formData.append("imagen", imagen);
             }
 
-            await Axios.post("http://localhost:3001/platillos/guardar", formData, {
+            await Axios.post("https://backendlogin-production-8d38.up.railway.app/platillos/guardar", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -89,7 +89,7 @@ function Platillos() {
                 formData.append("imagen", imagen);
             }
 
-            await Axios.put("http://localhost:3001/platillos/actualizar", formData, {
+            await Axios.put("https://backendlogin-production-8d38.up.railway.app/platillos/actualizar", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

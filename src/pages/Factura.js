@@ -52,7 +52,7 @@ const Historial = () => {
 
   const getOrdenEntregados = async  (usuarioId) => {
     try{
-      const response = await Axios.get(`http://localhost:3001/orden/ordenes-entregados/${usuarioId}`);
+      const response = await Axios.get(`https://backendlogin-production-8d38.up.railway.app/orden/ordenes-entregados/${usuarioId}`);
       setOrdenes(response.data.ordenes); 
     } catch (error) {
       console.error("Error al obtener las órdenes entregadas:", error);
@@ -163,7 +163,7 @@ const Historial = () => {
         }
       });
   
-      await Axios.post('http://localhost:3001/cliente/guardar', customerData);
+      await Axios.post('https://backendlogin-production-8d38.up.railway.app/cliente/guardar', customerData);
       
       await Swal.fire({
         icon: 'success',
@@ -202,7 +202,7 @@ const Historial = () => {
 
   const getClients = async () => {
     try {
-        const response = await Axios.get("http://localhost:3001/cliente/listar"); 
+        const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/cliente/listar"); 
         console.log("Clientes obtenidos:", response.data);
         setClients(response.data); 
         setFilteredClients(response.data); 
@@ -244,7 +244,7 @@ const handleSearchClientChange = (e) => {
       const clienteId = customerData.id; 
       const ordenId = id_orden;
       try {
-        const response = await Axios.post('http://localhost:3001/factura/guardar', {
+        const response = await Axios.post('https://backendlogin-production-8d38.up.railway.app/factura/guardar', {
           cliente_id: clienteId,
           orden_id: ordenId
         });

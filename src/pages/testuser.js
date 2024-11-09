@@ -37,7 +37,7 @@ useEffect(() => {
 
 useEffect(() => {
     // Fetch employees on component mount
-    Axios.get("http://localhost:3001/obtenerpersona")
+    Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerpersona")
         .then((response) => {
             setPersonas(response.data);
         })
@@ -48,7 +48,7 @@ useEffect(() => {
 
 const obtenerPersonas = async () => {
   try {
-      const response = await fetch('http://localhost:3001/obtenerpersona');
+      const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obtenerpersona');
       const data = await response.json();
       setPersonas(data);
   } catch (error) {
@@ -58,7 +58,7 @@ const obtenerPersonas = async () => {
   
 const obtenerEstado = async () => {
   try {
-      const response = await fetch('http://localhost:3001/obtenerestado');
+      const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obtenerestado');
       const data = await response.json();
       setEstados(data);
   } catch (error) {
@@ -68,7 +68,7 @@ const obtenerEstado = async () => {
 
 const obtenerRol = async () => {
   try {
-      const response = await fetch('http://localhost:3001/obtenerrol');
+      const response = await fetch('https://backendlogin-production-8d38.up.railway.app/obtenerrol');
       const data = await response.json();
       setRoles(data);
   } catch (error) {
@@ -79,7 +79,7 @@ const obtenerRol = async () => {
 
 
 const addUser = () => {
-    Axios.post("http://localhost:3001/create-usuario", {
+    Axios.post("https://backendlogin-production-8d38.up.railway.app/create-usuario", {
         id_persona: idPersona,
         rol_id: idRol,
         estado_id: idEstado,
@@ -108,7 +108,7 @@ const addUser = () => {
         username: username,
         password: password,
     });
-    Axios.put("http://localhost:3001/updateuser", {
+    Axios.put("https://backendlogin-production-8d38.up.railway.app/updateuser", {
       id_usuario: id,
       id_persona: idPersona,
       rol_id: idRol,
@@ -156,17 +156,17 @@ const addUser = () => {
   
   useEffect(() => {
     // Fetch employees
-    Axios.get("http://localhost:3001/obtenerpersona")
+    Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerpersona")
         .then(response => setPersonas(response.data))
         .catch(error => console.error("Error fetching employees:", error));
 
     // Fetch roles
-    Axios.get("http://localhost:3001/obtenerrol")
+    Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerrol")
         .then(response => setRoles(response.data))
         .catch(error => console.error("Error fetching roles:", error));
 
     // Fetch states
-    Axios.get("http://localhost:3001/obtenerestado")
+    Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerestado")
         .then(response => setEstados(response.data))
         .catch(error => console.error("Error fetching states:", error));
 
@@ -175,7 +175,7 @@ const addUser = () => {
 }, []); 
 
   const getUsuario = () => {
-    Axios.get("http://localhost:3001/obteneruser").then((response) => {
+    Axios.get("https://backendlogin-production-8d38.up.railway.app/obteneruser").then((response) => {
         setusuariolista(response.data);
     });
   };
@@ -185,7 +185,7 @@ const addUser = () => {
     //Obtener lista de personas 
     const fetchPersonas = async () => {
         try {
-            const response = await Axios.get("http://localhost:3001/obtenerPersona");
+            const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/obtenerPersona");
             setPersonas(response.data);
         } catch (error) {
             console.error("Error al obtener personas:", error);

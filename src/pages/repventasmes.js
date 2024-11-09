@@ -16,7 +16,7 @@ function ReporteVentasPorMes() {
     useEffect(() => {
         const fetchVentas = async () => {
             try {
-                const response = await Axios.get("http://localhost:3001/reporte/ventas-por-mes");
+                const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/reporte/ventas-por-mes");
                 setVentas(response.data.reporte);
                 setVentasFiltradas(response.data.reporte); // Inicializamos con todos los datos
             } catch (error) {

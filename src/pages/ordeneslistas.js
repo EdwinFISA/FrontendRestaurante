@@ -9,7 +9,7 @@ const OrdenesListas = () => {
     
     useEffect(() => {
         // Obtener las órdenes "Listo" desde el backend
-        axios.get('http://localhost:3001/orden/ordenes-listo')
+        axios.get('https://backendlogin-production-8d38.up.railway.app/orden/ordenes-listo')
             .then(response => {
                 if (response.data.success) {
                     setOrdenes(response.data.ordenes);
@@ -24,7 +24,7 @@ const OrdenesListas = () => {
 
     const handleEntregado = (ordenId) => {
         // Hacer la solicitud POST para actualizar el estado de la orden
-        axios.post(`http://localhost:3001/orden/entregar-orden/${ordenId}`)
+        axios.post(`https://backendlogin-production-8d38.up.railway.app/orden/entregar-orden/${ordenId}`)
             .then(response => {
                 if (response.data.success) {
                     // Mostrar SweetAlert con el ID de la orden y mensaje de "Entregado"

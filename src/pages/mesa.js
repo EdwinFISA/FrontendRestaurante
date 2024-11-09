@@ -18,7 +18,7 @@ function Mesa() {
     // Función para listar mesas
     const listarMesas = async () => {
         try {
-            const response = await Axios.get("http://localhost:3001/mesas/listar");
+            const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/mesas/listar");
             setMesaLista(response.data);
         } catch (error) {
             console.error("Error al listar mesas:", error);
@@ -37,7 +37,7 @@ function Mesa() {
     // Función para guardar mesa
     const guardarMesa = async () => {
         try {
-            await Axios.post("http://localhost:3001/mesas/guardar", {
+            await Axios.post("https://backendlogin-production-8d38.up.railway.app/mesas/guardar", {
                 numero: numero,
                 capacidad_max: capacidadMax
             });
@@ -62,7 +62,7 @@ function Mesa() {
     // Función para actualizar mesa
     const actualizarMesa = async () => {
         try {
-            await Axios.put("http://localhost:3001/mesas/actualizar", {
+            await Axios.put("https://backendlogin-production-8d38.up.railway.app/mesas/actualizar", {
                 id: id,
                 numero: numero,
                 capacidad_max: capacidadMax

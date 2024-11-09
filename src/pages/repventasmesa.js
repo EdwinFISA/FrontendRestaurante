@@ -13,7 +13,7 @@ function ReporteVentasPorMesa() {
     useEffect(() => {
         const fetchVentasPorMesa = async () => {
             try {
-                const response = await Axios.get("http://localhost:3001/reporte/ventas-por-mesa");
+                const response = await Axios.get("https://backendlogin-production-8d38.up.railway.app/reporte/ventas-por-mesa");
                 setVentasPorMesa(response.data.reporte);
                 setVentasFiltradas(response.data.reporte);
             } catch (error) {

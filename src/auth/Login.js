@@ -9,6 +9,8 @@ import '../style/Login.css';
 import imgLogo from '../asset/img/miralago.jpg'; 
 import imgFood from '../asset/img/food-image.jpg'; 
 
+const API_URL = 'https://backendlogin-production-8d38.up.railway.app';
+
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +21,7 @@ function Login() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.post('http://localhost:3001/login', { username, password })
+        axios.post(`${API_URL}/login`, { username, password })
             .then(res => {
                 if (res.status === 200 && res.data.token) {
                     localStorage.setItem('token', res.data.token);

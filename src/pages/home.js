@@ -12,7 +12,7 @@ const Home = () => {
     // Fetching estadisticas data from the backend
     const fetchEstadisticas = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/reporte/estadisticas');
+        const response = await axios.get('https://backendlogin-production-8d38.up.railway.app/reporte/estadisticas');
         setEstadisticas(response.data);
       } catch (error) {
         console.error('Error al obtener las estadísticas', error);
