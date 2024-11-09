@@ -5,8 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
-import { AllowedAccess } from 'react-permission-role';
-import NoPermission from "./NoPermission";
 
 const Cocina = () => {
     const [ordenes, setOrdenes] = useState([]);
@@ -49,12 +47,6 @@ const Cocina = () => {
     };
 
     return (
-        <AllowedAccess 
-        roles={["cocina"]} 
-        permissions="manage-users" 
-        renderAuthFailed={<NoPermission/>}
-        isLoading={<p>Cargando...</p>}
-      >
         <div className="container-fluid cocina-container">
             <div className="row">
                 <div className="col-md-12">
@@ -129,7 +121,6 @@ const Cocina = () => {
                 </Modal.Footer>
             </Modal>
         </div>
-        </AllowedAccess>
     );
 };
 
