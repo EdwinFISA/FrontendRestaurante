@@ -311,9 +311,9 @@ const handleSearchClientChange = (e) => {
   let totalOrden = 0;
   selectedOrder.items.forEach((item, index) => {
     const itemName = item.nombre || item.descripcion || 'Item sin nombre';
-    const itemPrice = item.precio || 0;
+    const itemPrice = parseFloat(item.precio) || 0;
     const itemQuantity = item.cantidad || 1;
-    const itemSubtotal = itemPrice * itemQuantity;
+    const itemSubtotal = item.subtotal;
 
     // Alinear cada campo de ítem en su columna respectiva
     const rowY = 80 + index * 10;
